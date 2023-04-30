@@ -1,15 +1,16 @@
 import { Either, left, right } from '@sweet-monads/either';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { inject, injectable } from 'inversify';
-import { API_URL } from '../../../staticData';
+import { API_URL, CLIENT_ID } from '../../../staticData';
 import { BaseApi, RequestData } from './baseApi';
 import { Types } from '../../../inversify/inversify.types';
 import LocalStorageService from '../../LocalStorageService';
 import { jwtResponse } from '../../../models/interfaces/response/jswResponse';
+import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
+import { CONFIG_JWT } from '../authService';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
-	@inject(Types.AuthService) private _authService!: AuthService;
 	@inject(Types.LocalStorageService) private _localStorageService!: LocalStorageService;
 
 	private $api = axios.create({
@@ -86,19 +87,26 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 	};
 
 	private refreshRequest = async (refreshToken: string, originalRequest: any): Promise<AxiosResponse<any, any>> => {
-		const res = await this._authService.refresh(refreshToken);
+		const params = new URLSearchParams();
+		params.append(urlSearchParamsTypeConstants.grantType, 'refresh_token');
+		params.append(urlSearchParamsTypeConstants.refreshToken, refreshToken);
+		params.append(urlSearchParamsTypeConstants.clientId, CLIENT_ID);
 
-		if (res.status === 200) {
-			this._localStorageService.saveJwt(res.data);
+		const req = this._post<jwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
+
+		const res = await this._doApiRequest(req);
+
+		if (res.isRight()) {
+			this._localStorageService.saveJwt(res.value);
 			originalRequest.headers.Authorization = `Bearer ${this._localStorageService.getAccessToken()}`;
 			return axios(originalRequest);
 		} else {
 			this._localStorageService.removeJwt();
-			return this.incorrectRefreshCase(res);
+			return this.incorrectRefreshCase(res.value);
 		}
 	};
 
-	private incorrectRefreshCase = (res?: AxiosResponse<jwtResponse, any>): Promise<never> => {
+	private incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
 		// TODO: history!!!
 		// history.push('/login');
 		return Promise.reject(res ?? 'refresh in local storage not found');

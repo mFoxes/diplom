@@ -1,11 +1,12 @@
-import { AxiosResponse } from 'axios';
+import { injectable } from 'inversify';
+import { AxiosApi } from './base/axiosApi';
+import { Either } from '@sweet-monads/either';
 
-export default class DownloadableImageService {
-	static async getPhotoById(photoId: string): Promise<AxiosResponse<File> | undefined> {
-		try {
-			return $api.get(`files/${photoId}`, { responseType: 'blob' });
-		} catch (e) {
-			console.log(e);
-		}
+@injectable()
+export default class DownloadableImageService extends AxiosApi {
+	public async getPhotoById(photoId: string): Promise<Either<unknown, File>> {
+		const req = this._get<File>({ url: `files/${photoId}`, config: { responseType: 'blob' } });
+
+		return this._doApiRequest(req);
 	}
 }

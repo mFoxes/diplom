@@ -1,4 +1,4 @@
-const urlSearchParamsTypeConstants = {
+export const urlSearchParamsTypeConstants = {
 	grantType: 'grant_type',
 	userName: 'username',
 	password: 'password',

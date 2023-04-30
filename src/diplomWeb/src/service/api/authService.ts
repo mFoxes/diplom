@@ -3,8 +3,9 @@ import { Either } from '@sweet-monads/either';
 import { jwtResponse } from '../../models/interfaces/response/jswResponse';
 import { CLIENT_ID } from '../../staticData';
 import { injectable } from 'inversify';
+import { urlSearchParamsTypeConstants } from '../../constants/authConstants';
 
-const configToJwt = {
+export const CONFIG_JWT = {
 	headers: {
 		'Content-Type': 'application/x-www-form-urlencoded',
 	},
@@ -13,7 +14,8 @@ const configToJwt = {
 @injectable()
 export default class AuthService extends AxiosApi {
 	public async authRequest(params: URLSearchParams): Promise<Either<unknown, jwtResponse>> {
-		const req = this._post<jwtResponse>({ url: 'connect/token', payload: params, config: configToJwt });
+		const req = this._post<jwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
+
 		return this._doApiRequest(req);
 	}
 
