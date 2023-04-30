@@ -63,7 +63,8 @@ export const LoginPage = observer((): JSX.Element => {
 				<CssBaseline />
 				<IconButton
 					onClick={(): void => {
-						history.push('/');
+						// TODO: history!!!
+						//history.push('/');
 					}}
 					sx={{ position: 'absolute', top: '0', left: '0', padding: '20px' }}
 				>

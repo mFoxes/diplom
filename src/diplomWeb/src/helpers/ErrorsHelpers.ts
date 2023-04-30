@@ -1,4 +1,4 @@
-import { errorResponse } from '../../models/interfaces/response/errorResponse';
+import { errorResponse } from '../models/interfaces/response/errorResponse';
 import { FieldError } from 'react-hook-form';
 
 export default class ErrorsHelper {

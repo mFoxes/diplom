@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { $api } from '../http/index';
-import { IEmployee } from '../models/interfaces/IEmployee';
-import { ITableParams } from '../models/interfaces/ITableParams';
-import deviceHistoryResponse from '../models/interfaces/response/deviceHistoryResponse';
-import { pageDataResponse } from '../models/interfaces/response/pageDataResponse';
+import { $api } from '../../http/index';
+import { IEmployee } from '../../models/interfaces/IEmployee';
+import { ITableParams } from '../../models/interfaces/ITableParams';
+import deviceHistoryResponse from '../../models/interfaces/response/deviceHistoryResponse';
+import { pageDataResponse } from '../../models/interfaces/response/pageDataResponse';
 
 export default class TableDataService<IItem, IInfoResponse> {
 	private _requestAddress = '';

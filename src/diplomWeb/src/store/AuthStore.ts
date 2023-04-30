@@ -56,7 +56,8 @@ export default class AuthStore {
 			if (res.status === 200) {
 				LocalStorageService.saveJwt(res.data);
 				LocalStorageService.saveRememberMe(remember);
-				history.back();
+				// TODO: history!!!
+				//history.back();
 				this.errorStore.setError(undefined);
 				this.getCurrentEmployee();
 			}
@@ -71,7 +72,8 @@ export default class AuthStore {
 	public logout(): void {
 		this.setCurrentEmployee(undefined);
 		LocalStorageService.removeJwt();
-		history.push('/');
+		// TODO: history!!!
+		//history.push('/');
 	}
 
 	public getRemainingJwtLife(): number {

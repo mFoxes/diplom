@@ -1,8 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { $api } from '../http';
-import { ICurrentEmployee } from '../models/interfaces/ICurrentEmployee';
-import overdueCountResponse from '../models/interfaces/response/overdueCountResponse';
-import overdueListResponse from '../models/interfaces/response/overdueListResponse';
 
 export default class CurrentEmployeeService {
 	async getCurrentEmployee(): Promise<AxiosResponse<ICurrentEmployee>> {
