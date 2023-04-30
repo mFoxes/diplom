@@ -1,0 +1,29 @@
+{
+    "shared.NotEmpty" : "Поле обязательно для заполнения",
+    "shared.MaxLength" : "Максимальная длина поля {0} символов",
+    "shared.FutureDate" : "Дата должна быть в будущем",
+    "shared.CannotDeserialize" : "Не удалось десериализовать сообщение",
+    "shared.InternalServerError" : "Произошла внутренняя ошибка сервера",
+
+    "device.InventoryNumberIsUsed" : "Инвентарный номер уже используется",
+    "device.NotFound" : "Устройство с данным Id не найдено",
+    "device.Booked" : "Данное устройство забронировано",
+    "device.InventoryNumberNotFound" : "Устройство с данным инвентарным номером не найдено",
+    "device.NotBooked" : "Данное устройство не забронировано",
+    "device.InventoryNumberTemplate" : "Инвентарный номер должен соответствовать шаблону [a-z].00.000",
+
+    "file.NotFound" : "Файл не найден",
+    "file.MaxSize" : "Максимально допустимый размер файла {0} МБайт",
+    "file.AllowedExtensions" : "Допустимые расширения файлов: {0}",
+
+    "user.NotFound" : "Пользователь с данным Id не найден",
+    "user.NameTemplate" : "ФИО должно содержать только русские буквы и символ пробела",
+    "user.Email" : "Некорректный e-mail адрес",
+    "user.MattermostNameTemplate" : "Поле должно соответствовать шаблону <имя.фамилия>",
+    "user.IsNull" : "Пользователь не указан",
+    "user.NotSynchronized" : "Пользователь не синхронизирован, обратитесь к администратору",
+    "user.NotRecognized" : "Пользователь не распознан",
+
+    "booking.NotFound" : "Бронь с данным Id не найдена",
+    "booking.TakeAtBeforeReturnAt" : "Дата получения должна быть раньше даты возврата"
+}

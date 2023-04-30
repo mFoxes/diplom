@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  # web-spa
+  web-spa:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: grandmaweb
+    ports:
+      - 3000:80

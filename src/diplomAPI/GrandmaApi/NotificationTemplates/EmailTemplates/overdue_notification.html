@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<h5>Вас беспокоит АИС "БАБУЛЯ"</h5>
+
+<h6>Бабуля негодует, потому что вы не вернули вовремя устройства:</h6>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <td>Устройство</td>
+        <td>Номер</td>
+        <td>Дата получения</td>
+        <td>Дата возврата</td>
+    </tr>
+    </thead>
+    <tbody>
+    {{ for device in Entities }}
+    <tr>
+        <td>{{ device.Name }}</td>
+        <td>{{ device.InventoryNumber }}</td>
+        <td>{{ device.TakeAt }}</td>
+        <td>{{ device.ReturnAt }}</td>
+    </tr>
+    {{ end }}
+    </tbody>
+</table>
+<h4>Впредь будьте внимательны в темных переулках...</h4>
+
+<i>Данное письмо сформировано автоматически и не требует ответа</i>
+</body>
+</html>

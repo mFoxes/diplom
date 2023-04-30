@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>    
+    <add key="public" value="https://api.nuget.org/v3/index.json" />  
+	  <add key="packages.singularis-lab.com" value="https://packages.singularis-lab.com/repository/nuget-private/" />
+  </packageSources>
+  <packageSourceCredentials>    
+	<packages.singularis-lab.com>
+      <add key="Username" value="%Nuget_Username%" />
+      <add key="ClearTextPassword" value="%Nuget_Password%" />
+    </packages.singularis-lab.com>
+  </packageSourceCredentials>  
+</configuration>

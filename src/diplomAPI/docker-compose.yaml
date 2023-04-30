@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+  # web ui for administrate ldap
+  # available at http://localhost:8091
+  # use cn=admin,dc=internship,dc=test as login and 12345678 as password
+  ldap-web-admin:
+    image: osixia/phpldapadmin
+    container_name: phpldapadmin
+    environment:
+      - PHPLDAPADMIN_HTTPS=false
+      - PHPLDAPADMIN_LDAP_HOSTS=ldap://ldap-server
+    ports:
+      - 8091:80
+
+  # ldap server
+  # available at ldap://localhost:10389
+  ldap-server:
+    image: osixia/openldap
+
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION=Internship
+      - LDAP_DOMAIN=internship.test
+      - LDAP_ADMIN_PASSWORD=12345678
+    ports:
+      - 10389:389
+
+  auth-server:
+    build:
+      context: ./
+      dockerfile: ./AuthServer/Dockerfile
+    image: auth-server
+    container_name: auth_server
+    environment:
+      - ASPNETCORE_URLS=http://+:5050
+      - ASPNETCORE_ENVIRONMENT=Compose
+    ports:
+      - 5050:5050
+
+  web-api:
+    build:
+      context: ./
+      dockerfile: ./GrandmaApi/Dockerfile
+    image: web-api
+    volumes:
+      - type : bind
+        source : "\\\\192.168.0.12\\stockman_storage"
+        target : /app/wwwroot
+    container_name: web_api
+    environment:
+      - ASPNETCORE_URLS=http://+:5009
+      - ASPNETCORE_ENVIRONMENT=Compose
+    ports:
+      - 5009:5009
+
+  gateway:
+    build:
+      context: ./Gateway
+      dockerfile: ./Dockerfile
+    container_name: gateway
+    ports:
+      - 5000:80
+
+  mongo-db:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    
