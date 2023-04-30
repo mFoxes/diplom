@@ -1963,6 +1963,18 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@sweet-monads/either@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@sweet-monads/either/-/either-3.2.0.tgz#4cea089a34b60b90d6df76b2bdb584da18c9076a"
+  integrity sha512-n+nR0b60GRTKb+D76qhTf4NEBXU9zfpigYYEtKtSYbV+5+i5gxr9jFd64pYkY2O7hVsb/G7nspbAeFni/i1ltA==
+  dependencies:
+    "@sweet-monads/interfaces" "^3.2.0"
+
+"@sweet-monads/interfaces@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@sweet-monads/interfaces/-/interfaces-3.2.0.tgz#4c772afb1e27e2f9147982cd00f3633add3a3be9"
+  integrity sha512-Bw74qfzTqwaSJO0G+F2J5oFG1MVeiZ5LlEQGmPsXeJPuZ4r1wG4qCO3uACK4HF39JVM0SI+p812OMAdC9yDtYQ==
+
 "@testing-library/dom@^8.5.0":
   version "8.13.0"
   resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-8.13.0.tgz"
@@ -5332,6 +5344,11 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
+inversify@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/inversify/-/inversify-6.0.1.tgz#b20d35425d5d8c5cd156120237aad0008d969f02"
+  integrity sha512-B3ex30927698TJENHR++8FfEaJGqoWOgI6ZY5Ht/nLUsFCwHn6akbwtnUAPCgUepAnTpe2qHxhDNjoKLyz6rgQ==
+
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz"
@@ -7874,6 +7891,11 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
+
+reflect-metadata@0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
 regenerate-unicode-properties@^10.0.1:
   version "10.0.1"
