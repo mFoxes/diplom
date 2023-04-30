@@ -1,28 +1,28 @@
 import { PaletteMode } from '@mui/material';
 import { jwtResponse } from '../models/interfaces/response/jswResponse';
+import {
+	ACCESS_TOKEN,
+	REFRESH_TOKEN,
+	EXPIRES_IN,
+	TIME_TOKEN_CREATE,
+	REMEMBER_ME,
+	THEME_MODE,
+} from '../constants/localstorageConstants';
 
 export default class LocalStorageService {
-	private static readonly ACCESS_TOKEN = 'access_token';
-	private static readonly REFRESH_TOKEN = 'refresh_token';
-	private static readonly EXPIRES_IN = 'expires_in';
-	private static readonly TIME_TOKEN_CREATE = 'time_token_create';
-	private static readonly REMEMBER_ME = 'remember';
-
-	private static readonly THEME_MODE = 'theme_mode';
-
-	static saveJwt(data: jwtResponse): void {
-		localStorage.setItem(this.ACCESS_TOKEN, data.access_token);
-		localStorage.setItem(this.REFRESH_TOKEN, data.refresh_token);
-		localStorage.setItem(this.EXPIRES_IN, data.expires_in.toString());
-		localStorage.setItem(this.TIME_TOKEN_CREATE, (Date.now() / 1000).toString());
+	public saveJwt(data: jwtResponse): void {
+		localStorage.setItem(ACCESS_TOKEN, data.access_token);
+		localStorage.setItem(REFRESH_TOKEN, data.refresh_token);
+		localStorage.setItem(EXPIRES_IN, data.expires_in.toString());
+		localStorage.setItem(TIME_TOKEN_CREATE, (Date.now() / 1000).toString());
 	}
 
-	static saveRememberMe(remember: boolean): void {
-		localStorage.setItem(this.REMEMBER_ME, remember ? 'true' : 'false');
+	public saveRememberMe(remember: boolean): void {
+		localStorage.setItem(REMEMBER_ME, remember ? 'true' : 'false');
 	}
 
-	static getExpiresIn(): number {
-		const expires_in = localStorage.getItem(this.EXPIRES_IN);
+	public getExpiresIn(): number {
+		const expires_in = localStorage.getItem(EXPIRES_IN);
 		if (expires_in !== null) {
 			return parseInt(expires_in);
 		} else {
@@ -30,8 +30,8 @@ export default class LocalStorageService {
 		}
 	}
 
-	static getTimeTokenCreateInSeconds(): number {
-		const time_token_create = localStorage.getItem(this.TIME_TOKEN_CREATE);
+	public getTimeTokenCreateInSeconds(): number {
+		const time_token_create = localStorage.getItem(TIME_TOKEN_CREATE);
 		if (time_token_create !== null) {
 			return parseInt(time_token_create);
 		} else {
@@ -39,18 +39,18 @@ export default class LocalStorageService {
 		}
 	}
 
-	static getAccessToken(): string | null {
-		const access_token = localStorage.getItem(this.ACCESS_TOKEN);
+	public getAccessToken(): string | null {
+		const access_token = localStorage.getItem(ACCESS_TOKEN);
 		return access_token;
 	}
 
-	static getRefreshToken(): string | null {
-		const refresh_token = localStorage.getItem(this.REFRESH_TOKEN);
+	public getRefreshToken(): string | null {
+		const refresh_token = localStorage.getItem(REFRESH_TOKEN);
 		return refresh_token;
 	}
 
-	static getRememberMe(): boolean {
-		const remember = localStorage.getItem(this.REMEMBER_ME);
+	public getRememberMe(): boolean {
+		const remember = localStorage.getItem(REMEMBER_ME);
 		if (remember !== null) {
 			return remember === 'true';
 		} else {
@@ -58,20 +58,20 @@ export default class LocalStorageService {
 		}
 	}
 
-	static removeJwt(): void {
-		localStorage.removeItem(this.ACCESS_TOKEN);
-		localStorage.removeItem(this.REFRESH_TOKEN);
-		localStorage.removeItem(this.EXPIRES_IN);
-		localStorage.removeItem(this.TIME_TOKEN_CREATE);
-		localStorage.removeItem(this.REMEMBER_ME);
+	public removeJwt(): void {
+		localStorage.removeItem(ACCESS_TOKEN);
+		localStorage.removeItem(REFRESH_TOKEN);
+		localStorage.removeItem(EXPIRES_IN);
+		localStorage.removeItem(TIME_TOKEN_CREATE);
+		localStorage.removeItem(REMEMBER_ME);
 	}
 
-	static saveThemeMode(themeMode: string): void {
-		localStorage.setItem(this.THEME_MODE, themeMode);
+	public saveThemeMode(themeMode: string): void {
+		localStorage.setItem(THEME_MODE, themeMode);
 	}
 
-	static getThemeMode(): PaletteMode {
-		const themeMode = localStorage.getItem(this.THEME_MODE) as PaletteMode;
+	public getThemeMode(): PaletteMode {
+		const themeMode = localStorage.getItem(THEME_MODE) as PaletteMode;
 
 		return themeMode || 'light';
 	}

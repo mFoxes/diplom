@@ -2,7 +2,7 @@ import html2canvas from 'html2canvas';
 import { FieldError } from 'react-hook-form';
 import { QrCodeImg } from '../components/qrCodeImg/QrCodeImg';
 import { errorResponse } from '../models/interfaces/response/errorResponse';
-import ErrorsHelper from '../service/helpers/ErrorsHelpers';
+import ErrorsHelper from '../helpers/errorsHelpers';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import download from 'downloadjs';
