@@ -1,10 +1,11 @@
-import { AxiosResponse } from 'axios';
 import { AxiosApi } from './base/axiosApi';
 import { Either } from '@sweet-monads/either';
 import { ICurrentEmployee } from '../../models/interfaces/ICurrentEmployee';
 import overdueCountResponse from '../../models/interfaces/response/overdueCountResponse';
 import overdueListResponse from '../../models/interfaces/response/overdueListResponse';
+import { injectable } from 'inversify';
 
+@injectable()
 export default class CurrentEmployeeService extends AxiosApi {
 	public async getCurrentEmployee(): Promise<Either<unknown, ICurrentEmployee>> {
 		const req = this._get<ICurrentEmployee>({ url: 'users/current' });

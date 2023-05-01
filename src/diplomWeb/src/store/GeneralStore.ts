@@ -1,6 +1,6 @@
 import { PaletteMode } from '@mui/material';
 import { makeAutoObservable } from 'mobx';
-import LocalStorageService from '../service/LocalStorageService';
+import LocalStorageService from '../service/localStorageService';
 
 export default class GeneralStore {
 	private _pageTitle = '';

@@ -6,7 +6,7 @@ import { IErrorType } from '../models/interfaces/IErrorType';
 import { errorResponse } from '../models/interfaces/response/errorResponse';
 import AuthService from '../service/AuthService';
 import CurrentEmployeeService from '../service/CurrentEmployeeService';
-import LocalStorageService from '../service/LocalStorageService';
+import LocalStorageService from '../service/localStorageService';
 import ErrorStore from './ErrorStore';
 import ModalConfirmStore from './ModalConfirmStore';
 import OverdueStore from './OverdueStore';
