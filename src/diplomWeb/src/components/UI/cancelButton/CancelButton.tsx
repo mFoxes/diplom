@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import ModalConfirmStore from '../../../store/ModalConfirmStore';
+import ModalConfirmStore from '../../../store/base/helpers/ModalConfirmStore';
 import { SecondThemeWrapper } from '../../themeWrapper/SecondThemeWrapper';
 
 export interface ICancelButton<IInfoResponse> {

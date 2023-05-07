@@ -1,16 +1,19 @@
+import { inject } from 'inversify';
 import { action, computed, makeObservable, observable } from 'mobx';
+import { Types } from '../inversify/inversify.types';
 import IDashboard from '../models/interfaces/IDashboard';
 import { IEmployee } from '../models/interfaces/IEmployee';
-import { IErrorType } from '../models/interfaces/IErrorType';
 import { dashboardInfoResponse } from '../models/interfaces/response/dashboardResponse';
-import EventSubscriber from '../signalR/EventSubscriber';
-import TableDataStore from './TableDataStore';
+import SignalRSubscribers from '../signalR/SignalRSubscribers';
+import TableDataStore from './base/TableDataStore';
 
 export default class DashboardStore extends TableDataStore<IDashboard, dashboardInfoResponse> {
-	constructor(requestAddress: string, dashboardSubscriber: EventSubscriber<dashboardInfoResponse>) {
-		super(requestAddress);
+	@inject(Types.SignalRSubscribers) private _signalRSubscribers!: SignalRSubscribers;
 
-		dashboardSubscriber.Add((data?: dashboardInfoResponse) => {
+	constructor() {
+		super('bookings');
+
+		this._signalRSubscribers.dashboardSubscriber.Add((data?: dashboardInfoResponse) => {
 			this.changeDashboardItem(data);
 		});
 
@@ -39,11 +42,10 @@ export default class DashboardStore extends TableDataStore<IDashboard, dashboard
 
 	@action
 	public async getAllEmployeeNames(): Promise<void> {
-		try {
-			const res = await this.service.getAllEmployeeNames();
-			this.setEmployees(res.data);
-		} catch (e: IErrorType) {
-			console.log(e);
+		const res = await this.service.getAllEmployeeNames();
+
+		if (res.isRight()) {
+			this.setEmployees(res.value);
 		}
 	}
 }

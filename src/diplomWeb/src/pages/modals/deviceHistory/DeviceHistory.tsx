@@ -13,7 +13,7 @@ import {
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react-lite';
 import { ModalGeneral } from '../../../components/modal/ModalGeneral';
-import ModalDeviceHistoryStore from '../../../store/ModalDeviceHistoryStore';
+import ModalDeviceHistoryStore from '../../../store/base/ModalDeviceHistoryStore';
 import { getBookingTimeInterval } from '../../../utilities/Utilities';
 
 interface IDeviceHistory {

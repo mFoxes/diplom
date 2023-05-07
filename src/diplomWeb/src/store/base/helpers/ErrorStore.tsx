@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { errorResponse } from '../models/interfaces/response/errorResponse';
+import { errorResponse } from '../../../models/interfaces/response/errorResponse';
 
 export default class ErrorStore {
 	private _error: errorResponse[] | undefined;

@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify';
 import { API_URL, CLIENT_ID } from '../../../staticData';
 import { BaseApi, RequestData } from './baseApi';
 import { Types } from '../../../inversify/inversify.types';
-import LocalStorageService from '../../LocalStorageService';
+import LocalStorageService from '../../localStorageService';
 import { jwtResponse } from '../../../models/interfaces/response/jswResponse';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { CONFIG_JWT } from '../authService';

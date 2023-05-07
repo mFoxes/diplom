@@ -1,16 +1,14 @@
-import { AxiosResponse } from 'axios';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { Path, UseFormReturn } from 'react-hook-form';
-import { IData } from '../models/interfaces/IData';
-import { IErrorType } from '../models/interfaces/IErrorType';
-import { ITableParams } from '../models/interfaces/ITableParams';
-import { dataInfoResponse } from '../models/interfaces/response/dataInfoResponse';
-import TableDataService from '../service/TableDataService';
-import { REQUIRED_PHOTO_ERROR } from '../staticData';
+import { IData } from '../../models/interfaces/IData';
+import { ITableParams } from '../../models/interfaces/ITableParams';
+import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
+import TableDataService from '../../service/api/tableDataService';
+import { REQUIRED_PHOTO_ERROR } from '../../staticData';
 import ModalDeviceHistoryStore from './ModalDeviceHistoryStore';
-import ModalConfirmStore from './ModalConfirmStore';
 import ModalInfoStore from './ModalInfoStore';
-import TableParamsStore from './TableParamsStore';
+import ModalConfirmStore from './helpers/ModalConfirmStore';
+import TableParamsStore from './helpers/TableParamsStore';
 
 export default class TableDataStore<IItem extends IData, IInfoResponse extends dataInfoResponse> {
 	@observable protected _items: IItem[] = [];
@@ -71,86 +69,61 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends d
 
 	@action
 	public async getAllTableData(params: ITableParams): Promise<void> {
-		try {
-			const res = await this.service.getAllTableData(params);
-			this.setItems(res.data.Items);
-			this.setTotalItems(res.data.TotalItems);
-			this.setTotalItemsFiltered(res.data.TotalItemsFiltered);
+		const res = await this.service.getAllTableData(params);
+
+		if (res.isRight()) {
+			this.setItems(res.value.Items);
+			this.setTotalItems(res.value.TotalItems);
+			this.setTotalItemsFiltered(res.value.TotalItemsFiltered);
 
 			if (this.paginationLength < this.params.page) {
 				this.params.handleChange(this.paginationLength);
 				this.updateTableData();
 			}
-		} catch (e: IErrorType) {
-			console.log(e);
 		}
 	}
 
 	@action
 	public async getTableDataInfo(): Promise<void> {
-		try {
-			const res = await this.service.getTableDataInfo(this.modalInfo.tableDataInfoId);
+		const res = await this.service.getTableDataInfo(this.modalInfo.tableDataInfoId);
 
-			this.modalInfo.setTableDataInfo(res.data);
-		} catch (e: IErrorType) {
-			console.log(e);
+		if (res.isRight()) {
+			this.modalInfo.setTableDataInfo(res.value);
 		}
 	}
 
 	@action
-	public async getTableDataPhoto(photoId: string): Promise<AxiosResponse<File> | undefined> {
-		try {
-			if (photoId !== null) {
-				return await this.service.getTableDataPhoto(photoId);
+	public async getTableDataPhoto(photoId: string): Promise<File | undefined> {
+		if (photoId !== null) {
+			const res = await this.service.getTableDataPhoto(photoId);
+			if (res.isRight()) {
+				return res.value;
+			} else if (res.isLeft()) {
+				this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
 			}
-		} catch (e: IErrorType) {
-			this.modalInfo.errorStore.setError(e.response.data);
 		}
 	}
 
 	@action
-	public async postNewTableDataPhoto(file: File): Promise<AxiosResponse<{ File: string }> | undefined> {
-		try {
-			const res = await this.service.postTableDataPhoto(file);
+	public async postNewTableDataPhoto(file: File): Promise<{ File: string } | undefined> {
+		const res = await this.service.postTableDataPhoto(file);
 
-			return res;
-		} catch (e: IErrorType) {
-			this.modalInfo.errorStore.setError(e.response.data.Errors);
-		}
-	}
-
-	@action
-	public async putTableDataInfo(newData: IInfoResponse): Promise<AxiosResponse | void> {
-		try {
-			if (newData.Id) {
-				return await this.service.putTableDataInfo(newData.Id, newData);
-			}
-		} catch (e: IErrorType) {
-			this.modalInfo.errorStore.setError(e.response.data.Errors);
-		}
-	}
-
-	@action
-	public async postTableDataInfo(newData: IInfoResponse): Promise<AxiosResponse | void> {
-		try {
-			return await this.service.postTableDataInfo(newData);
-		} catch (e: IErrorType) {
-			this.modalInfo.errorStore.setError(e.response.data.Errors);
+		if (res.isRight()) {
+			return res.value;
+		} else {
+			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
 		}
 	}
 
 	@action
 	public async deleteTableData(id: string): Promise<void> {
-		try {
-			const res = await this.service.deleteTableData(id);
+		const res = await this.service.deleteTableData(id);
 
-			if (res.status === 200) {
-				this.modalConfirm.modalStore.handleClose();
-
-				this.updateTableData();
-			}
-		} catch (e: IErrorType) {
-			this.modalConfirm.errorStore.setError(e.response.data.Errors);
+		if (res.isRight()) {
+			this.modalConfirm.modalStore.handleClose();
+			this.updateTableData();
+		} else {
+			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
 		}
 	}
 
@@ -161,17 +134,17 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends d
 	}
 
 	@action
-	public async updateTableInfoPhoto(photo: File): Promise<AxiosResponse<{ File: string }> | undefined> {
-		const newPhotoId = this.postNewTableDataPhoto(photo);
+	public async updateTableInfoPhoto(photo: File): Promise<{ File: string } | undefined> {
+		const newPhotoId = await this.postNewTableDataPhoto(photo);
 		return newPhotoId;
 	}
 
 	@action
 	public async updateTableInfo(originTableDataInfo: IInfoResponse, updateMethod?: () => void): Promise<void> {
 		if (originTableDataInfo.Id) {
-			const res = await this.putTableDataInfo(originTableDataInfo);
+			const res = await this.service.putTableDataInfo(originTableDataInfo.Id, originTableDataInfo);
 
-			if (res && res.status === 200) {
+			if (res.isRight()) {
 				this.modalInfo.modalStore.handleClose();
 
 				if (updateMethod) {
@@ -187,9 +160,9 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends d
 
 	@action
 	public async addNewTableInfo(originTableDataInfo: IInfoResponse): Promise<void> {
-		const res = await this.postTableDataInfo(originTableDataInfo);
+		const res = await this.service.postTableDataInfo(originTableDataInfo);
 
-		if (res && res.status === 200) {
+		if (res.isRight()) {
 			this.modalInfo.modalStore.handleClose();
 
 			this.updateTableData();
@@ -204,11 +177,13 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends d
 		originDataInfo: IInfoResponse,
 		updateTableInfoMethod: (originDataInfo: IInfoResponse) => void,
 	): Promise<void> {
-		const res = await this.updateTableInfoPhoto(file);
+		const res = await this.service.postTableDataPhoto(file);
 
-		if (res && res.status === 200) {
-			originDataInfo.PhotoId = res.data.File;
+		if (res.isRight()) {
+			originDataInfo.PhotoId = res.value.File;
 			updateTableInfoMethod(originDataInfo);
+		} else {
+			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
 		}
 	}
 
@@ -233,11 +208,10 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends d
 	}
 
 	@action async getDeviceHistory(id: string): Promise<void> {
-		try {
-			const res = await this.service.getDeviceHistory(id);
-			this.modalDeviceHistory.setDeviceHistory(res.data);
-		} catch (e: IErrorType) {
-			console.log(e);
+		const res = await this.service.getDeviceHistory(id);
+
+		if (res.isRight()) {
+			this.modalDeviceHistory.setDeviceHistory(res.value);
 		}
 	}
 }

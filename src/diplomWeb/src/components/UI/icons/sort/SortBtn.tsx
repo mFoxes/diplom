@@ -1,7 +1,7 @@
 import { ArrowDownward } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import TableParamsStore from '../../../../store/TableParamsStore';
+import TableParamsStore from '../../../../store/base/helpers/TableParamsStore';
 
 export type FilterDirType = 'asc' | 'desc';
 

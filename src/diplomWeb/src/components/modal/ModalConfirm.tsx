@@ -1,7 +1,7 @@
 import { Box, Modal, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import ModalConfirmStore from '../../store/ModalConfirmStore';
+import ModalConfirmStore from '../../store/base/helpers/ModalConfirmStore';
 import { ModalGeneral } from './ModalGeneral';
 
 export interface IModalConfirm<T> {

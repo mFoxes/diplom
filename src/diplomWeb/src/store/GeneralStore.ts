@@ -1,16 +1,18 @@
 import { PaletteMode } from '@mui/material';
 import { makeAutoObservable } from 'mobx';
-import LocalStorageService from '../service/LocalStorageService';
+import LocalStorageService from '../service/localStorageService';
+import { inject } from 'inversify';
+import { Types } from '../inversify/inversify.types';
 
 export default class GeneralStore {
+	@inject(Types.LocalStorageService) private _localStorageService!: LocalStorageService;
+
 	private _pageTitle = '';
-
 	private _mobileOpen = false;
-
 	private _themeMode: PaletteMode = 'light';
 
 	constructor() {
-		const themeMode = LocalStorageService.getThemeMode();
+		const themeMode = this._localStorageService.getThemeMode();
 		this.setThemeMode(themeMode);
 		makeAutoObservable(this);
 	}
@@ -41,7 +43,7 @@ export default class GeneralStore {
 
 	public setThemeMode(data: PaletteMode): void {
 		this._themeMode = data;
-		LocalStorageService.saveThemeMode(data);
+		this._localStorageService.saveThemeMode(data);
 	}
 
 	public swapThemeMode(): void {

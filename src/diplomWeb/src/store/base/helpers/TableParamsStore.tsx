@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { FilterDirType } from '../components/UI/icons/sort/SortBtn';
-import { IFilterVariable, ITableParams } from '../models/interfaces/ITableParams';
-import { DEFAULT_PAGE_ITEMS_COUNT } from '../staticData';
+import { FilterDirType } from '../../../components/UI/icons/sort/SortBtn';
+import { IFilterVariable, ITableParams } from '../../../models/interfaces/ITableParams';
+import { DEFAULT_PAGE_ITEMS_COUNT } from '../../../staticData';
 
 export default class TableParamsStore {
 	private _skip = 0;
@@ -106,7 +106,7 @@ export default class TableParamsStore {
 
 	public changeSortOrderByFieldName(fieldName: string): void {
 		if (this.orderBy === fieldName) {
-			this._orderDir === 'asc' ? this.setOrderDir('desc') : this.setOrderDir('asc');
+			this.setOrderDir(this._orderDir === 'asc' ? 'desc' : 'asc');
 		} else {
 			this.setOrderBy(fieldName);
 			this.setOrderDir('asc');

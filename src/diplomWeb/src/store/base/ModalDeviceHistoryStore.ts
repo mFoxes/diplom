@@ -1,11 +1,11 @@
 import { makeAutoObservable } from 'mobx';
-import deviceHistoryResponse from '../models/interfaces/response/deviceHistoryResponse';
+import deviceHistoryResponse from '../../models/interfaces/response/deviceHistoryResponse';
 import ModalStore from './ModalStore';
 
 export default class ModalDeviceHistoryStore {
-	public readonly modalStore = new ModalStore();
-
 	private _deviceHistory: deviceHistoryResponse | undefined;
+
+	public readonly modalStore = new ModalStore();
 
 	constructor() {
 		makeAutoObservable(this);

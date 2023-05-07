@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { ChangeEvent, InputHTMLAttributes } from 'react';
 import { Path, useFormContext, UseFormRegisterReturn } from 'react-hook-form';
-import ErrorStore from '../../../store/ErrorStore';
+import ErrorStore from '../../../store/base/helpers/ErrorStore';
 import { getErrorListByName } from '../../../utilities/Utilities';
 import { SecondThemeWrapper } from '../../themeWrapper/SecondThemeWrapper';
 

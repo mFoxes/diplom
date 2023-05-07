@@ -5,7 +5,7 @@ import { debounce } from 'throttle-debounce';
 import { IData } from '../../../models/interfaces/IData';
 import { IInput } from '../../../models/interfaces/IInput';
 import { dataInfoResponse } from '../../../models/interfaces/response/dataInfoResponse';
-import TableDataStore from '../../../store/TableDataStore';
+import TableDataStore from '../../../store/base/TableDataStore';
 import { InputCleanButton } from '../icons/clean/InputCleanButton';
 
 interface IFilterInput<IItem extends IData, IInfoResponse extends dataInfoResponse> extends IInput<IItem> {

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import TableParamsStore from '../../store/TableParamsStore';
+import TableParamsStore from '../../store/base/helpers/TableParamsStore';
 import { ISortBtn, SortBtn } from '../UI/icons/sort/SortBtn';
 
 export interface ITableHeaderCell extends ISortBtn {

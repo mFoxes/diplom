@@ -1,12 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import ErrorStore from './ErrorStore';
-import ModalStore from './ModalStore';
+import ModalStore from '../ModalStore';
 
 export default class ModalConfirmStore<IInfoResponse> {
-	public readonly modalStore = new ModalStore();
-
 	private _item: IInfoResponse | undefined;
 
+	public readonly modalStore = new ModalStore();
 	public readonly errorStore = new ErrorStore();
 
 	constructor() {

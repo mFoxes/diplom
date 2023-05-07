@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import IDashboard from '../models/interfaces/IDashboard';
-import ModalStore from './ModalStore';
+import IDashboard from '../../../models/interfaces/IDashboard';
+import ModalStore from '../ModalStore';
 
 export default class OverdueStore {
-	private _currentEmployeeOverdueCount: number | undefined;
 	private _currentEmployeeOverdue: IDashboard[] | undefined;
+	private _currentEmployeeOverdueCount: number | undefined;
 
 	public readonly modalStore = new ModalStore();
 

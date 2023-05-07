@@ -8,7 +8,9 @@ import {
 	REMEMBER_ME,
 	THEME_MODE,
 } from '../constants/localstorageConstants';
+import { injectable } from 'inversify';
 
+@injectable()
 export default class LocalStorageService {
 	public saveJwt(data: jwtResponse): void {
 		localStorage.setItem(ACCESS_TOKEN, data.access_token);

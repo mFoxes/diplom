@@ -10,9 +10,8 @@ import DashboardStore from './store/DashboardStore';
 import DevicesStore from './store/DevicesStore';
 import EmployeeStore from './store/EmployeesStore';
 import GeneralStore from './store/GeneralStore';
-import PhotosCacheStore from './store/PhotosCacheStore';
+import PhotosCacheStore from './store/base/helpers/PhotosCacheStore';
 import SignalR from './signalR/SignalR';
-import SignalRSubscribers from './signalR/SignalRSubscribers';
 
 interface State {
 	generalStore: GeneralStore;
@@ -24,16 +23,14 @@ interface State {
 	signalR: SignalR;
 }
 
-const subscribers = new SignalRSubscribers();
-
-export const dashboardStore = new DashboardStore('bookings', subscribers.dashboardSubscriber);
+export const dashboardStore = new DashboardStore();
 export const generalStore = new GeneralStore();
 export const authStore = new AuthStore();
 export const photosCacheStore = new PhotosCacheStore();
-export const employeesStore = new EmployeeStore('users');
-export const devicesStore = new DevicesStore('devices');
+export const employeesStore = new EmployeeStore();
+export const devicesStore = new DevicesStore();
 
-export const signalR = new SignalR(subscribers);
+export const signalR = new SignalR();
 
 export const Context = createContext<State>({
 	generalStore,

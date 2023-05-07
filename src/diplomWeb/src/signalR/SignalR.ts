@@ -2,14 +2,14 @@ import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microso
 import { dashboardInfoResponse } from '../models/interfaces/response/dashboardResponse';
 import { API_URL } from '../staticData';
 import SignalRSubscribers from './SignalRSubscribers';
+import { inject } from 'inversify';
+import { Types } from '../inversify/inversify.types';
 
 export default class SignalR {
-	private _signalRSubscribers: SignalRSubscribers | undefined;
+	@inject(Types.SignalRSubscribers) private _signalRSubscribers!: SignalRSubscribers;
 	private _connection: HubConnection | undefined;
 
-	constructor(signalRSubscribers: SignalRSubscribers) {
-		this._signalRSubscribers = signalRSubscribers;
-
+	constructor() {
 		this.initHub();
 		this.addFunctionListener();
 	}

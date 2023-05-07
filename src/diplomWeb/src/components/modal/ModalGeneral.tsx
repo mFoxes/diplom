@@ -2,7 +2,7 @@ import { Modal, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import ModalStore from '../../store/ModalStore';
+import ModalStore from '../../store/base/ModalStore';
 
 export interface IModalGeneral {
 	children?: JSX.Element;
