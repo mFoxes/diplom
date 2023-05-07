@@ -4,6 +4,8 @@ import { jwtResponse } from '../../models/interfaces/response/jswResponse';
 import { CLIENT_ID } from '../../staticData';
 import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../constants/authConstants';
+import { errorResponse } from '../../models/interfaces/response/errorResponse';
+import { AxiosResponse } from 'axios';
 
 export const CONFIG_JWT = {
 	headers: {
@@ -13,13 +15,20 @@ export const CONFIG_JWT = {
 
 @injectable()
 export default class AuthService extends AxiosApi {
-	public async authRequest(params: URLSearchParams): Promise<Either<unknown, jwtResponse>> {
-		const req = this._post<jwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
+	public async authRequest(params: URLSearchParams): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
+		const req = this._post<jwtResponse>({
+			url: 'connect/token',
+			payload: params,
+			config: CONFIG_JWT,
+		});
 
 		return this._doApiRequest(req);
 	}
 
-	public async login(username: string, password: string): Promise<Either<unknown, jwtResponse>> {
+	public async login(
+		username: string,
+		password: string,
+	): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'password');
 		params.append(urlSearchParamsTypeConstants.userName, username);
@@ -29,7 +38,7 @@ export default class AuthService extends AxiosApi {
 		return this.authRequest(params);
 	}
 
-	public async refresh(refresh_token: string): Promise<Either<unknown, jwtResponse>> {
+	public async refresh(refresh_token: string): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'refresh_token');
 		params.append(urlSearchParamsTypeConstants.refreshToken, refresh_token);
