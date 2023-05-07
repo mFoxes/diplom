@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { generalStore } from '../..';
 import { IData } from '../../models/interfaces/IData';
 import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
-import TableDataStore from '../../store/TableDataStore';
+import TableDataStore from '../../store/base/TableDataStore';
 
 export interface IModalInfo<IItem extends IData, IInfoResponse extends dataInfoResponse> {
 	onFormSubmit: (e?: BaseSyntheticEvent | undefined) => Promise<void>;

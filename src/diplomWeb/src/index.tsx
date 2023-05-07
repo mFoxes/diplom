@@ -10,7 +10,7 @@ import DashboardStore from './store/DashboardStore';
 import DevicesStore from './store/DevicesStore';
 import EmployeeStore from './store/EmployeesStore';
 import GeneralStore from './store/GeneralStore';
-import PhotosCacheStore from './store/PhotosCacheStore';
+import PhotosCacheStore from './store/base/helpers/PhotosCacheStore';
 import SignalR from './signalR/SignalR';
 import SignalRSubscribers from './signalR/SignalRSubscribers';
 

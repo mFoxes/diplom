@@ -5,7 +5,6 @@ import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import DownloadableImageService from '../service/api/downloadableImgService';
 import LocalStorageService from '../service/localStorageService';
 import { Types } from './inversify.types';
-import DashboardStore from '../store/DashboardStore';
 
 const container = new Container();
 
@@ -17,7 +16,6 @@ container.bind<DownloadableImageService>(Types.DownloadableImageService).to(Down
 // service end
 
 // stores
-container.bind<DashboardStore>(Types.DashboardStore).to(DashboardStore('bookings'));
 // stores end
 
 // signalR

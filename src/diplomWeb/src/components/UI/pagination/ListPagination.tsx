@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { IData } from '../../../models/interfaces/IData';
 import { dataInfoResponse } from '../../../models/interfaces/response/dataInfoResponse';
-import TableDataStore from '../../../store/TableDataStore';
+import TableDataStore from '../../../store/base/TableDataStore';
 
 export interface IListPagination<IItem extends IData, IInfoResponse extends dataInfoResponse> {
 	store: TableDataStore<IItem, IInfoResponse>;
