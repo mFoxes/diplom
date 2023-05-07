@@ -1,14 +1,15 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { Context } from '../../..';
-import { ModalConfirm } from '../../../components/modal/ModalConfirm';
 import { CancelButton } from '../../../components/UI/cancelButton/CancelButton';
+import { ModalConfirm } from '../../../components/modal/ModalConfirm';
+import { useInject } from '../../../hooks/useInject';
+import { Types } from '../../../inversify/inversify.types';
 import { IDevices } from '../../../models/interfaces/IDevices';
+import DevicesStore from '../../../store/DevicesStore';
 import { getErrorListByName, nameof } from '../../../utilities/Utilities';
 
 export const DeleteModal = observer((): JSX.Element => {
-	const { devicesStore } = useContext(Context);
+	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
 
 	const { modalConfirm } = devicesStore;
 

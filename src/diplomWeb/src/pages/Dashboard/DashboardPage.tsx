@@ -12,20 +12,26 @@ import {
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
-import { Context } from '../..';
-import { DashboardStatus } from '../../components/dashboardStatus/DashboardStatus';
-import { TableHeadCell } from '../../components/tableHeadCell/TableHeadCell';
+import { useEffect } from 'react';
 import { InputFilter } from '../../components/UI/input/InputFilter';
 import { ListPagination } from '../../components/UI/pagination/ListPagination';
+import { DashboardStatus } from '../../components/dashboardStatus/DashboardStatus';
+import { TableHeadCell } from '../../components/tableHeadCell/TableHeadCell';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
 import IDashboard from '../../models/interfaces/IDashboard';
+import AuthStore from '../../store/AuthStore';
+import DashboardStore from '../../store/DashboardStore';
+import GeneralStore from '../../store/GeneralStore';
 import { nameof } from '../../utilities/Utilities';
 import { DashboardInfo } from '../modals/dashboardInfo/DashboardInfo';
 import { DeviceHistory } from '../modals/deviceHistory/DeviceHistory';
 import { ReturnModal } from '../modals/general/ReturnModal';
 
 export const DashboardPage = observer((): JSX.Element => {
-	const { dashboardStore, generalStore, authStore } = useContext(Context);
+	const dashboardStore = useInject<DashboardStore>(Types.DashboardStore);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	const { params, modalInfo, modalConfirm, modalDeviceHistory } = dashboardStore;
 

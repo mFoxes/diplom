@@ -2,20 +2,24 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Close } from '@mui/icons-material';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import ModalInfo from '../../../components/modal/ModalInfo';
 import { ModalImgField } from '../../../components/modalField/ModalImgField';
 import { ModalInputField } from '../../../components/modalField/ModalInputField';
 
+import { useInject } from '../../../hooks/useInject';
 import employeePhotoEmpty from '../../../img/employeePhotoEmpty.png';
+import { Types } from '../../../inversify/inversify.types';
 import { employeeInfoResponse } from '../../../models/interfaces/response/employeeInfoResponse';
 import { EmployeeInfoSchema } from '../../../models/schemas/EmployeeInfoSchema';
+import AuthStore from '../../../store/AuthStore';
+import EmployeeStore from '../../../store/EmployeesStore';
 import { nameof } from '../../../utilities/Utilities';
 
 const EmployeeInfo = (): JSX.Element => {
-	const { employeesStore, authStore } = useContext(Context);
+	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	const { modalInfo } = employeesStore;
 

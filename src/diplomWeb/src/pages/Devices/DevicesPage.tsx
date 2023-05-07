@@ -12,22 +12,26 @@ import {
 	TableRow,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
-import { Context } from '../..';
-import { TableHeadCell } from '../../components/tableHeadCell/TableHeadCell';
+import { useEffect } from 'react';
 import { DownloadableImage } from '../../components/UI/img/DownloadableImage';
 import { InputFilter } from '../../components/UI/input/InputFilter';
 import { ListPagination } from '../../components/UI/pagination/ListPagination';
+import { TableHeadCell } from '../../components/tableHeadCell/TableHeadCell';
 
+import { useInject } from '../../hooks/useInject';
 import devicesPhotoEmpty from '../../img/devicePhotoEmpty.png';
+import { Types } from '../../inversify/inversify.types';
 import { IDevices } from '../../models/interfaces/IDevices';
+import DevicesStore from '../../store/DevicesStore';
+import GeneralStore from '../../store/GeneralStore';
 import { createQrCode, nameof } from '../../utilities/Utilities';
 import { DeviceHistory } from '../modals/deviceHistory/DeviceHistory';
 import { DeviceInfo } from '../modals/deviceInfo/DeviceInfo';
 import { DeleteModal } from '../modals/general/DeleteModal';
 
 const DevicesPage = (): JSX.Element => {
-	const { generalStore, devicesStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
 
 	const { params, modalInfo, modalConfirm, modalDeviceHistory } = devicesStore;
 

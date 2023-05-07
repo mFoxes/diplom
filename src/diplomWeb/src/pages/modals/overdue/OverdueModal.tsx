@@ -12,13 +12,15 @@ import {
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
-import { Context } from '../../..';
+import { useEffect } from 'react';
 import { ModalGeneral } from '../../../components/modal/ModalGeneral';
+import { useInject } from '../../../hooks/useInject';
+import { Types } from '../../../inversify/inversify.types';
+import AuthStore from '../../../store/AuthStore';
 import { getBookingTimeInterval } from '../../../utilities/Utilities';
 
 export const OverdueModal = observer((): JSX.Element => {
-	const { authStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	useEffect(() => {
 		authStore.getCurrentEmployeeOverdue();
