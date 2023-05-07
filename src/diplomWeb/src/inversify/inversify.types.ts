@@ -7,7 +7,11 @@ export const Types = {
 	// service end
 
 	// stores
+	AuthStore: Symbol('AuthStore'),
 	DashboardStore: Symbol('DashboardStore'),
+	DevicesStore: Symbol('DevicesStore'),
+	EmployeeStore: Symbol('EmployeeStore'),
+	GeneralStore: Symbol('GeneralStore'),
 	// stores end
 
 	// signalR

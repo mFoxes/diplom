@@ -1,17 +1,15 @@
+import { inject } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 import { toast } from 'react-toastify';
-import { history } from '../history/history';
+import { Types } from '../inversify/inversify.types';
 import { ICurrentEmployee } from '../models/interfaces/ICurrentEmployee';
-import { IErrorType } from '../models/interfaces/IErrorType';
 import { errorResponse } from '../models/interfaces/response/errorResponse';
+import AuthService from '../service/api/authService';
+import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import LocalStorageService from '../service/localStorageService';
 import ErrorStore from './base/helpers/ErrorStore';
 import ModalConfirmStore from './base/helpers/ModalConfirmStore';
 import OverdueStore from './base/helpers/OverdueStore';
-import { inject } from 'inversify';
-import { Types } from '../inversify/inversify.types';
-import AuthService from '../service/api/authService';
-import CurrentEmployeeService from '../service/api/currentEmployeeService';
 
 export default class AuthStore {
 	@inject(Types.AuthService) private _authService!: AuthService;

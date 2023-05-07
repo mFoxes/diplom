@@ -7,6 +7,11 @@ import LocalStorageService from '../service/localStorageService';
 import { Types } from './inversify.types';
 import SignalR from '../signalR/SignalR';
 import SignalRSubscribers from '../signalR/SignalRSubscribers';
+import AuthStore from '../store/AuthStore';
+import DashboardStore from '../store/DashboardStore';
+import EmployeeStore from '../store/EmployeesStore';
+import GeneralStore from '../store/GeneralStore';
+import DevicesStore from '../store/DevicesStore';
 
 const container = new Container();
 
@@ -18,6 +23,11 @@ container.bind<DownloadableImageService>(Types.DownloadableImageService).to(Down
 // service end
 
 // stores
+container.bind<AuthStore>(Types.AuthStore).to(AuthStore).inSingletonScope();
+container.bind<DashboardStore>(Types.DashboardStore).to(DashboardStore).inSingletonScope();
+container.bind<DevicesStore>(Types.DevicesStore).to(DevicesStore).inSingletonScope();
+container.bind<EmployeeStore>(Types.EmployeeStore).to(EmployeeStore).inSingletonScope();
+container.bind<GeneralStore>(Types.GeneralStore).to(GeneralStore).inSingletonScope();
 // stores end
 
 // signalR
