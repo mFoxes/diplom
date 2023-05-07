@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import AuthService from '../service/api/authService';
 import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import DownloadableImageService from '../service/api/downloadableImgService';
-import LocalStorageService from '../service/localStorageService';
 import { Types } from './inversify.types';
 import SignalR from '../signalR/SignalR';
 import SignalRSubscribers from '../signalR/SignalRSubscribers';
@@ -12,6 +11,8 @@ import DashboardStore from '../store/DashboardStore';
 import EmployeeStore from '../store/EmployeesStore';
 import GeneralStore from '../store/GeneralStore';
 import DevicesStore from '../store/DevicesStore';
+import PhotosCacheStore from '../store/base/helpers/PhotosCacheStore';
+import LocalStorageService from '../service/localStorageService';
 
 const container = new Container();
 
@@ -28,6 +29,8 @@ container.bind<DashboardStore>(Types.DashboardStore).to(DashboardStore).inSingle
 container.bind<DevicesStore>(Types.DevicesStore).to(DevicesStore).inSingletonScope();
 container.bind<EmployeeStore>(Types.EmployeeStore).to(EmployeeStore).inSingletonScope();
 container.bind<GeneralStore>(Types.GeneralStore).to(GeneralStore).inSingletonScope();
+
+container.bind<PhotosCacheStore>(Types.PhotosCacheStore).to(PhotosCacheStore).inSingletonScope();
 // stores end
 
 // signalR

@@ -12,6 +12,8 @@ export const Types = {
 	DevicesStore: Symbol('DevicesStore'),
 	EmployeeStore: Symbol('EmployeeStore'),
 	GeneralStore: Symbol('GeneralStore'),
+
+	PhotosCacheStore: Symbol('PhotosCacheStore'),
 	// stores end
 
 	// signalR
