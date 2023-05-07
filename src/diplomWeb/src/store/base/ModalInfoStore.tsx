@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import ErrorStore from './ErrorStore';
+import ErrorStore from './helpers/ErrorStore';
 import ModalStore from './ModalStore';
 
 export default class ModalInfoStore<IInfoResponse> {
@@ -8,7 +8,6 @@ export default class ModalInfoStore<IInfoResponse> {
 	private _tableDataPhoto: File = new File([], '');
 
 	public readonly errorStore = new ErrorStore();
-
 	public readonly modalStore = new ModalStore();
 
 	constructor() {
