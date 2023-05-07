@@ -11,5 +11,7 @@ export const Types = {
 	// stores end
 
 	// signalR
+	SignalR: Symbol('SignalR'),
+	SignalRSubscribers: Symbol('SignalRSubscribers'),
 	// signalR end
 };

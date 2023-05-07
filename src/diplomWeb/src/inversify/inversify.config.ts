@@ -5,6 +5,8 @@ import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import DownloadableImageService from '../service/api/downloadableImgService';
 import LocalStorageService from '../service/localStorageService';
 import { Types } from './inversify.types';
+import SignalR from '../signalR/SignalR';
+import SignalRSubscribers from '../signalR/SignalRSubscribers';
 
 const container = new Container();
 
@@ -19,6 +21,8 @@ container.bind<DownloadableImageService>(Types.DownloadableImageService).to(Down
 // stores end
 
 // signalR
+container.bind<SignalR>(Types.SignalR).to(SignalR).inSingletonScope();
+container.bind<SignalRSubscribers>(Types.SignalRSubscribers).to(SignalRSubscribers).inSingletonScope();
 // signalR end
 
 export default container;
