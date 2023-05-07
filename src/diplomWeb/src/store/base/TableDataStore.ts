@@ -1,16 +1,14 @@
-import { AxiosResponse } from 'axios';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { Path, UseFormReturn } from 'react-hook-form';
 import { IData } from '../../models/interfaces/IData';
-import { IErrorType } from '../../models/interfaces/IErrorType';
 import { ITableParams } from '../../models/interfaces/ITableParams';
 import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
+import TableDataService from '../../service/api/tableDataService';
 import { REQUIRED_PHOTO_ERROR } from '../../staticData';
 import ModalDeviceHistoryStore from './ModalDeviceHistoryStore';
-import ModalConfirmStore from './helpers/ModalConfirmStore';
 import ModalInfoStore from './ModalInfoStore';
+import ModalConfirmStore from './helpers/ModalConfirmStore';
 import TableParamsStore from './helpers/TableParamsStore';
-import TableDataService from '../../service/api/tableDataService';
 
 export default class TableDataStore<IItem extends IData, IInfoResponse extends dataInfoResponse> {
 	@observable protected _items: IItem[] = [];

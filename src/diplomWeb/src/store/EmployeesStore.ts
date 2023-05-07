@@ -4,8 +4,8 @@ import { employeeInfoResponse } from '../models/interfaces/response/employeeInfo
 import TableDataStore from './base/TableDataStore';
 
 export default class EmployeeStore extends TableDataStore<IEmployee, employeeInfoResponse> {
-	constructor(requestAddress: string) {
-		super(requestAddress);
+	constructor() {
+		super('users');
 		makeObservable(this);
 	}
 
