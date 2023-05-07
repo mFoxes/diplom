@@ -4,7 +4,7 @@ import { IEmployee } from '../models/interfaces/IEmployee';
 import { IErrorType } from '../models/interfaces/IErrorType';
 import { dashboardInfoResponse } from '../models/interfaces/response/dashboardResponse';
 import EventSubscriber from '../signalR/EventSubscriber';
-import TableDataStore from './TableDataStore';
+import TableDataStore from './base/TableDataStore';
 
 export default class DashboardStore extends TableDataStore<IDashboard, dashboardInfoResponse> {
 	constructor(requestAddress: string, dashboardSubscriber: EventSubscriber<dashboardInfoResponse>) {
@@ -39,11 +39,10 @@ export default class DashboardStore extends TableDataStore<IDashboard, dashboard
 
 	@action
 	public async getAllEmployeeNames(): Promise<void> {
-		try {
-			const res = await this.service.getAllEmployeeNames();
-			this.setEmployees(res.data);
-		} catch (e: IErrorType) {
-			console.log(e);
+		const res = await this.service.getAllEmployeeNames();
+
+		if (res.isRight()) {
+			this.setEmployees(res.value);
 		}
 	}
 }
