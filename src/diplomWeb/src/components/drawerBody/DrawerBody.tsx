@@ -1,13 +1,16 @@
-import { DashboardRounded, DevicesSharp, PeopleSharp, Settings } from '@mui/icons-material';
+import { DashboardRounded, DevicesSharp, PeopleSharp } from '@mui/icons-material';
 import { AppBar, Box, Divider, List, Toolbar } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { authStore } from '../..';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
 import { DRAWER_HEIGHT, DRAWER_WIDTH } from '../../staticData';
+import AuthStore from '../../store/AuthStore';
 import { Logo } from '../logo/Logo';
 import { NavigationItem } from '../navigationItem/NavigationItem';
 
 export const DrawerBody = observer((): JSX.Element => {
+	const authStore = useInject<AuthStore>(Types.AuthStore);
+
 	return (
 		<Box>
 			<AppBar

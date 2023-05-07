@@ -1,17 +1,17 @@
 import { SxProps, TableCell, Theme, Typography } from '@mui/material';
-import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
-import { Context } from '../..';
+import { Types } from '../../inversify/inversify.types';
 import IDashboard from '../../models/interfaces/IDashboard';
+import GeneralStore from '../../store/GeneralStore';
 import { getBookingTimeInterval } from '../../utilities/Utilities';
+import { useInject } from '../../hooks/useInject';
 
 interface IDashboardStatus {
 	deviceItem: IDashboard;
 }
 
 export const DashboardStatus = observer((props: IDashboardStatus): JSX.Element => {
-	const { generalStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 
 	const checkOverdue = (returnAt: Date): boolean => {
 		returnAt.setHours(23, 59, 59);

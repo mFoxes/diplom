@@ -1,14 +1,18 @@
 import { RunningWithErrors } from '@mui/icons-material';
 import { Badge, Box, Button, IconButton, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useRef } from 'react';
-import { Context } from '../..';
+import { useRef } from 'react';
+import { useInject } from '../../hooks/useInject';
 import employeePhotoEmpty from '../../img/employeePhotoEmpty.png';
-import { EmployeeMenu } from '../employeeMenu/EmployeeMenu';
+import { Types } from '../../inversify/inversify.types';
+import AuthStore from '../../store/AuthStore';
+import GeneralStore from '../../store/GeneralStore';
 import { DownloadableImage } from '../UI/img/DownloadableImage';
+import { EmployeeMenu } from '../employeeMenu/EmployeeMenu';
 
 export const EmployeePanel = observer((): JSX.Element => {
-	const { authStore, generalStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 
 	const anchorEl = useRef<HTMLButtonElement>(null);
 

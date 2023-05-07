@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import grandma from '../../img/grandma.jpg';
-import React from 'react';
 
 export const Logo = (): JSX.Element => {
 	return (

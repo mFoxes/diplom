@@ -1,14 +1,18 @@
 import { Menu, MenuItem, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { RefObject, useContext } from 'react';
-import { Context } from '../..';
+import { RefObject } from 'react';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
+import AuthStore from '../../store/AuthStore';
+import EmployeeStore from '../../store/EmployeesStore';
 
 interface IEmployeeMenu {
 	anchorEl: RefObject<HTMLButtonElement> | null;
 }
 
 export const EmployeeMenu = observer(({ anchorEl, ...props }: IEmployeeMenu): JSX.Element => {
-	const { authStore, employeesStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
 
 	return (
 		<Menu

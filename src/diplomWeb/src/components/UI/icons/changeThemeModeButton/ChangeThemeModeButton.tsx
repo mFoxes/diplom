@@ -1,11 +1,12 @@
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
-import { Context } from '../../../..';
+import { useInject } from '../../../../hooks/useInject';
+import { Types } from '../../../../inversify/inversify.types';
+import GeneralStore from '../../../../store/GeneralStore';
 
 export const ChangeThemeModeButton = observer((): JSX.Element => {
-	const { generalStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 
 	return (
 		<IconButton sx={{ ml: 1 }} onClick={(): void => generalStore.swapThemeMode()} color='inherit'>

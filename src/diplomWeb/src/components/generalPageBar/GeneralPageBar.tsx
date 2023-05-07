@@ -1,15 +1,18 @@
 import { Menu } from '@mui/icons-material';
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Context } from '../..';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
 import { DRAWER_HEIGHT, DRAWER_WIDTH } from '../../staticData';
-import { EmployeePanel } from '../employeePanel/EmployeePanel';
+import AuthStore from '../../store/AuthStore';
+import GeneralStore from '../../store/GeneralStore';
 import { ChangeThemeModeButton } from '../UI/icons/changeThemeModeButton/ChangeThemeModeButton';
+import { EmployeePanel } from '../employeePanel/EmployeePanel';
 
 export const GeneralPageBar = observer((): JSX.Element => {
-	const { generalStore, authStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 
 	return (
 		<AppBar
