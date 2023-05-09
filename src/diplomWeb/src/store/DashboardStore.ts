@@ -1,19 +1,20 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { Types } from '../inversify/inversify.types';
 import IDashboard from '../models/interfaces/IDashboard';
 import { IEmployee } from '../models/interfaces/IEmployee';
-import { dashboardInfoResponse } from '../models/interfaces/response/dashboardResponse';
+import { IDashboardInfoResponse } from '../models/interfaces/response/IDashboardResponse';
 import SignalRSubscribers from '../signalR/SignalRSubscribers';
 import TableDataStore from './base/TableDataStore';
 
-export default class DashboardStore extends TableDataStore<IDashboard, dashboardInfoResponse> {
+@injectable()
+export default class DashboardStore extends TableDataStore<IDashboard, IDashboardInfoResponse> {
 	@inject(Types.SignalRSubscribers) private _signalRSubscribers!: SignalRSubscribers;
 
-	constructor() {
-		super('bookings');
+	constructor(@inject(Types.DashboardRequestAddress) requestAddress: string) {
+		super(requestAddress);
 
-		this._signalRSubscribers.dashboardSubscriber.Add((data?: dashboardInfoResponse) => {
+		this._signalRSubscribers.dashboardSubscriber.Add((data?: IDashboardInfoResponse) => {
 			this.changeDashboardItem(data);
 		});
 
@@ -21,7 +22,7 @@ export default class DashboardStore extends TableDataStore<IDashboard, dashboard
 	}
 
 	@action
-	public changeDashboardItem(data?: dashboardInfoResponse): void {
+	public changeDashboardItem(data?: IDashboardInfoResponse): void {
 		const itemIndex = this._items.findIndex((item) => item.Id === data?.Id);
 		if (data && itemIndex !== undefined) {
 			this.setItemById(itemIndex, data);

@@ -1,13 +1,13 @@
-import { errorResponse } from '../models/interfaces/response/errorResponse';
+import { IErrorResponse } from '../models/interfaces/response/IErrorResponse';
 import { FieldError } from 'react-hook-form';
 
 export default class ErrorsHelper {
 	static chooseErrors = (
 		fieldName: string,
-		serverErrors?: errorResponse[],
+		serverErrors?: IErrorResponse[],
 		formErrors?: FieldError | null,
-	): errorResponse[] => {
-		let tempErrorsList: errorResponse[] = [];
+	): IErrorResponse[] => {
+		let tempErrorsList: IErrorResponse[] = [];
 		if (serverErrors) {
 			tempErrorsList = serverErrors;
 		}
@@ -19,7 +19,7 @@ export default class ErrorsHelper {
 	};
 
 	static getErrorMessagesByName = (
-		fullErrorList: errorResponse[] | undefined,
+		fullErrorList: IErrorResponse[] | undefined,
 		filedName: string,
 	): string[] | undefined => {
 		if (fullErrorList) {

@@ -1,9 +1,9 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 import { toast } from 'react-toastify';
 import { Types } from '../inversify/inversify.types';
 import { ICurrentEmployee } from '../models/interfaces/ICurrentEmployee';
-import { errorResponse } from '../models/interfaces/response/errorResponse';
+import { IErrorResponse } from '../models/interfaces/response/IErrorResponse';
 import AuthService from '../service/api/authService';
 import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import LocalStorageService from '../service/localStorageService';
@@ -11,6 +11,7 @@ import ErrorStore from './base/helpers/ErrorStore';
 import ModalConfirmStore from './base/helpers/ModalConfirmStore';
 import OverdueStore from './base/helpers/OverdueStore';
 
+@injectable()
 export default class AuthStore {
 	@inject(Types.AuthService) private _authService!: AuthService;
 	@inject(Types.LocalStorageService) private _localStorageService!: LocalStorageService;
@@ -26,7 +27,9 @@ export default class AuthStore {
 
 	constructor() {
 		makeAutoObservable(this);
+	}
 
+	public initCurrentEmployee(): void {
 		if (this._localStorageService.getAccessToken() !== null) {
 			this.getCurrentEmployee();
 		}
@@ -63,7 +66,7 @@ export default class AuthStore {
 			this.errorStore.setError(undefined);
 			this.getCurrentEmployee();
 		} else {
-			res.value.request.response.data.Errors.forEach((item: errorResponse): void => {
+			res.value.request.response.data.Errors.forEach((item: IErrorResponse): void => {
 				toast.error(item.Message);
 			});
 			this.errorStore.setError(res.value.request.response.data.Errors);
@@ -128,7 +131,7 @@ export default class AuthStore {
 			this.setCurrentEmployee(res.value);
 			this.getCurrentEmployeeOverdueCount();
 		} else {
-			res.value.request.response.data.Errors.forEach((item: errorResponse): void => {
+			res.value.request.response.data.Errors.forEach((item: IErrorResponse): void => {
 				toast.error(item.Message);
 			});
 		}

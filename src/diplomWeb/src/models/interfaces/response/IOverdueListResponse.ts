@@ -1,5 +1,5 @@
 import IDashboard from '../IDashboard';
 
-export default interface overdueListResponse {
+export default interface IOverdueListResponse {
 	Bookings: IDashboard[];
 }

@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Context } from '.';
 import { LoginPage } from './pages/Login/LoginPage';
 
 import { Box } from '@mui/material';
@@ -14,12 +13,19 @@ import { GeneralPage } from './pages/General/GeneralPage';
 import './style/app.scss';
 
 import { injectStyle } from 'react-toastify/dist/inject-style';
+import { useInject } from './hooks/useInject';
+import { Types } from './inversify/inversify.types';
+import AuthStore from './store/AuthStore';
+import GeneralStore from './store/GeneralStore';
 
 function App(): JSX.Element {
-	const { generalStore, authStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	useEffect(() => {
 		injectStyle();
+		generalStore.initThemeMode();
+		authStore.initCurrentEmployee();
 		authStore.rememberMeCheckAndRefresh();
 	}, []);
 

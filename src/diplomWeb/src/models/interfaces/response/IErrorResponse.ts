@@ -1,4 +1,4 @@
-export interface errorResponse {
+export interface IErrorResponse {
 	FieldName: string;
 	Message: string;
 }

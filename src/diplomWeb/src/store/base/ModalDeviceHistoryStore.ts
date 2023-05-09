@@ -1,9 +1,11 @@
 import { makeAutoObservable } from 'mobx';
-import deviceHistoryResponse from '../../models/interfaces/response/deviceHistoryResponse';
+import IDeviceHistoryResponse from '../../models/interfaces/response/IDeviceHistoryResponse';
 import ModalStore from './ModalStore';
+import { injectable } from 'inversify';
 
+@injectable()
 export default class ModalDeviceHistoryStore {
-	private _deviceHistory: deviceHistoryResponse | undefined;
+	private _deviceHistory: IDeviceHistoryResponse | undefined;
 
 	public readonly modalStore = new ModalStore();
 
@@ -11,11 +13,11 @@ export default class ModalDeviceHistoryStore {
 		makeAutoObservable(this);
 	}
 
-	get deviceHistory(): deviceHistoryResponse | undefined {
+	get deviceHistory(): IDeviceHistoryResponse | undefined {
 		return this._deviceHistory;
 	}
 
-	public setDeviceHistory(data: deviceHistoryResponse | undefined): void {
+	public setDeviceHistory(data: IDeviceHistoryResponse | undefined): void {
 		this._deviceHistory = data;
 	}
 }

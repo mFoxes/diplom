@@ -2,15 +2,17 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { Path, UseFormReturn } from 'react-hook-form';
 import { IData } from '../../models/interfaces/IData';
 import { ITableParams } from '../../models/interfaces/ITableParams';
-import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
+import { IDataInfoResponse } from '../../models/interfaces/response/IDataInfoResponse';
 import TableDataService from '../../service/api/tableDataService';
 import { REQUIRED_PHOTO_ERROR } from '../../staticData';
 import ModalDeviceHistoryStore from './ModalDeviceHistoryStore';
 import ModalInfoStore from './ModalInfoStore';
 import ModalConfirmStore from './helpers/ModalConfirmStore';
 import TableParamsStore from './helpers/TableParamsStore';
+import { injectable } from 'inversify';
 
-export default class TableDataStore<IItem extends IData, IInfoResponse extends dataInfoResponse> {
+@injectable()
+export default class TableDataStore<IItem extends IData, IInfoResponse extends IDataInfoResponse> {
 	@observable protected _items: IItem[] = [];
 	@observable protected _totalItems = 0;
 	@observable protected _totalItemsFiltered = 0;

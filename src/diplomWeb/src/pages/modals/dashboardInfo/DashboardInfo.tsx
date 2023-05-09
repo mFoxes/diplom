@@ -10,7 +10,7 @@ import ModalInfo from '../../../components/modal/ModalInfo';
 import { ModalDateField } from '../../../components/modalField/ModalDateField';
 import { ModalSelectField } from '../../../components/modalField/ModalSelectField';
 import { ModalTextField } from '../../../components/modalField/ModalTextField';
-import { dashboardInfoResponse } from '../../../models/interfaces/response/dashboardResponse';
+import { IDashboardInfoResponse } from '../../../models/interfaces/response/IDashboardResponse';
 import { DashboardInfoSchema } from '../../../models/schemas/DashboardSchema';
 import DashboardStore from '../../../store/DashboardStore';
 import { nameof } from '../../../utilities/Utilities';
@@ -22,12 +22,12 @@ export const DashboardInfo = observer((): JSX.Element => {
 
 	const { modalInfo } = dashboardStore;
 
-	const methods = useForm<dashboardInfoResponse>({
+	const methods = useForm<IDashboardInfoResponse>({
 		mode: 'all',
 		resolver: yupResolver(DashboardInfoSchema),
 	});
 
-	const changeNewData = async (data: dashboardInfoResponse, changeData: dashboardInfoResponse): Promise<void> => {
+	const changeNewData = async (data: IDashboardInfoResponse, changeData: IDashboardInfoResponse): Promise<void> => {
 		changeData.State = 'booked';
 
 		if (data.UserId) {
@@ -40,8 +40,8 @@ export const DashboardInfo = observer((): JSX.Element => {
 		changeData.ReturnAt.setHours(23, 59, 59);
 	};
 
-	const onSubmit = async (data: dashboardInfoResponse): Promise<void> => {
-		const originDashboardInfo = { ...modalInfo.tableDataInfo } as dashboardInfoResponse;
+	const onSubmit = async (data: IDashboardInfoResponse): Promise<void> => {
+		const originDashboardInfo = { ...modalInfo.tableDataInfo } as IDashboardInfoResponse;
 
 		if (originDashboardInfo) {
 			await changeNewData(data, originDashboardInfo);
@@ -106,7 +106,7 @@ export const DashboardInfo = observer((): JSX.Element => {
 								<ModalSelectField
 									fieldName={'Сотрудник'}
 									selectInputAttribute={{
-										inputName: nameof<dashboardInfoResponse>('UserId'),
+										inputName: nameof<IDashboardInfoResponse>('UserId'),
 										serverErrorList: modalInfo.errorStore.error,
 									}}
 								>
@@ -125,7 +125,7 @@ export const DashboardInfo = observer((): JSX.Element => {
 							<ModalDateField
 								fieldName={'Дата получения'}
 								inputAttribute={{
-									inputName: nameof<dashboardInfoResponse>('TakeAt'),
+									inputName: nameof<IDashboardInfoResponse>('TakeAt'),
 									serverErrorStore: modalInfo.errorStore,
 									hasErrorField: true,
 								}}
@@ -134,7 +134,7 @@ export const DashboardInfo = observer((): JSX.Element => {
 							<ModalDateField
 								fieldName={'Дата возврата'}
 								inputAttribute={{
-									inputName: nameof<dashboardInfoResponse>('ReturnAt'),
+									inputName: nameof<IDashboardInfoResponse>('ReturnAt'),
 									serverErrorStore: modalInfo.errorStore,
 									hasErrorField: true,
 								}}

@@ -2,7 +2,7 @@ import html2canvas from 'html2canvas';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { FieldError } from 'react-hook-form';
 import { QrCodeImg } from '../components/qrCodeImg/QrCodeImg';
-import { errorResponse } from '../models/interfaces/response/errorResponse';
+import { IErrorResponse } from '../models/interfaces/response/IErrorResponse';
 
 import { format } from 'date-fns';
 import download from 'downloadjs';
@@ -12,7 +12,7 @@ export const nameof = <T,>(name: keyof T): keyof T => name;
 
 export const getErrorListByName = (
 	inputName: string,
-	serverErrorList: errorResponse[] | undefined,
+	serverErrorList: IErrorResponse[] | undefined,
 	formErrorList?: FieldError,
 ): string[] | undefined => {
 	const fullErrorList = ErrorsHelper.chooseErrors(inputName, serverErrorList, formErrorList);

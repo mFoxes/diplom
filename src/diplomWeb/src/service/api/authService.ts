@@ -1,10 +1,10 @@
 import { AxiosApi } from './base/axiosApi';
 import { Either } from '@sweet-monads/either';
-import { jwtResponse } from '../../models/interfaces/response/jswResponse';
+import { IJwtResponse } from '../../models/interfaces/response/IJwtResponse';
 import { CLIENT_ID } from '../../staticData';
 import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../constants/authConstants';
-import { errorResponse } from '../../models/interfaces/response/errorResponse';
+import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
 import { AxiosResponse } from 'axios';
 
 export const CONFIG_JWT = {
@@ -15,8 +15,8 @@ export const CONFIG_JWT = {
 
 @injectable()
 export default class AuthService extends AxiosApi {
-	public async authRequest(params: URLSearchParams): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
-		const req = this._post<jwtResponse>({
+	public async authRequest(params: URLSearchParams): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
+		const req = this._post<IJwtResponse>({
 			url: 'connect/token',
 			payload: params,
 			config: CONFIG_JWT,
@@ -28,7 +28,7 @@ export default class AuthService extends AxiosApi {
 	public async login(
 		username: string,
 		password: string,
-	): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
+	): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'password');
 		params.append(urlSearchParamsTypeConstants.userName, username);
@@ -38,7 +38,7 @@ export default class AuthService extends AxiosApi {
 		return this.authRequest(params);
 	}
 
-	public async refresh(refresh_token: string): Promise<Either<AxiosResponse<errorResponse[]>, jwtResponse>> {
+	public async refresh(refresh_token: string): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'refresh_token');
 		params.append(urlSearchParamsTypeConstants.refreshToken, refresh_token);

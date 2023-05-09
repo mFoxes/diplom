@@ -6,17 +6,17 @@ import { useFormContext } from 'react-hook-form';
 import { useInject } from '../../hooks/useInject';
 import { Types } from '../../inversify/inversify.types';
 import { IData } from '../../models/interfaces/IData';
-import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
+import { IDataInfoResponse } from '../../models/interfaces/response/IDataInfoResponse';
 import GeneralStore from '../../store/GeneralStore';
 import TableDataStore from '../../store/base/TableDataStore';
 
-export interface IModalInfo<IItem extends IData, IInfoResponse extends dataInfoResponse> {
+export interface IModalInfo<IItem extends IData, IInfoResponse extends IDataInfoResponse> {
 	onFormSubmit: (e?: BaseSyntheticEvent | undefined) => Promise<void>;
 	children?: JSX.Element;
 	store: TableDataStore<IItem, IInfoResponse>;
 }
 
-const ModalInfo = <IItem extends IData, IInfoResponse extends dataInfoResponse>(
+const ModalInfo = <IItem extends IData, IInfoResponse extends IDataInfoResponse>(
 	props: IModalInfo<IItem, IInfoResponse>,
 ): JSX.Element => {
 	const generalStore = useInject<GeneralStore>(Types.GeneralStore);

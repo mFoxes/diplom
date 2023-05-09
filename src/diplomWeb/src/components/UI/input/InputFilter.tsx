@@ -3,17 +3,17 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback } from 'react';
 import { debounce } from 'throttle-debounce';
 import { IData } from '../../../models/interfaces/IData';
-import { IInput } from '../../../models/interfaces/IInput';
-import { dataInfoResponse } from '../../../models/interfaces/response/dataInfoResponse';
+import { IDataInfoResponse } from '../../../models/interfaces/response/IDataInfoResponse';
 import TableDataStore from '../../../store/base/TableDataStore';
 import { InputCleanButton } from '../icons/clean/InputCleanButton';
+import { IInput } from './Input';
 
-interface IFilterInput<IItem extends IData, IInfoResponse extends dataInfoResponse> extends IInput<IItem> {
+interface IFilterInput<IItem extends IData, IInfoResponse extends IDataInfoResponse> extends IInput<IItem> {
 	store: TableDataStore<IItem, IInfoResponse>;
 }
 
 export const InputFilter = observer(
-	<IItem extends IData, IInfoResponse extends dataInfoResponse>({
+	<IItem extends IData, IInfoResponse extends IDataInfoResponse>({
 		inputName,
 		store,
 		...props

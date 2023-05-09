@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { IInput } from '../../models/interfaces/IInput';
-import { Input } from '../UI/input/Input';
+import { IInput, Input } from '../UI/input/Input';
 
 export interface IModalInputField<T> {
 	hasColumnDirection?: boolean;

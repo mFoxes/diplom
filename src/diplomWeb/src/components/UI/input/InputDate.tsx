@@ -2,8 +2,8 @@ import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { observer } from 'mobx-react-lite';
 import { Controller, Path, useFormContext, UseFormRegisterReturn } from 'react-hook-form';
-import { IInput } from '../../../models/interfaces/IInput';
 import { getErrorListByName } from '../../../utilities/Utilities';
+import { IInput } from './Input';
 
 export type IInputDate<T> = IInput<T>;
 

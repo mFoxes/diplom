@@ -4,10 +4,10 @@ import { inject, injectable } from 'inversify';
 import { API_URL, CLIENT_ID } from '../../../staticData';
 import { BaseApi, RequestData } from './baseApi';
 import { Types } from '../../../inversify/inversify.types';
-import LocalStorageService from '../../localStorageService';
-import { jwtResponse } from '../../../models/interfaces/response/jswResponse';
+import { IJwtResponse } from '../../../models/interfaces/response/IJwtResponse';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { CONFIG_JWT } from '../authService';
+import LocalStorageService from '../../localStorageService';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
@@ -92,7 +92,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		params.append(urlSearchParamsTypeConstants.refreshToken, refreshToken);
 		params.append(urlSearchParamsTypeConstants.clientId, CLIENT_ID);
 
-		const req = this._post<jwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
+		const req = this._post<IJwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
 
 		const res = await this._doApiRequest(req);
 
