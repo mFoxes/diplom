@@ -4,19 +4,21 @@ import { Box, Button, IconButton, MenuItem, Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import ModalInfo from '../../../components/modal/ModalInfo';
 import { ModalDateField } from '../../../components/modalField/ModalDateField';
 import { ModalSelectField } from '../../../components/modalField/ModalSelectField';
 import { ModalTextField } from '../../../components/modalField/ModalTextField';
 import { dashboardInfoResponse } from '../../../models/interfaces/response/dashboardResponse';
 import { DashboardInfoSchema } from '../../../models/schemas/DashboardSchema';
+import DashboardStore from '../../../store/DashboardStore';
 import { nameof } from '../../../utilities/Utilities';
+import { useInject } from '../../../hooks/useInject';
+import { Types } from '../../../inversify/inversify.types';
 
 export const DashboardInfo = observer((): JSX.Element => {
-	const { dashboardStore } = useContext(Context);
+	const dashboardStore = useInject<DashboardStore>(Types.DashboardStore);
 
 	const { modalInfo } = dashboardStore;
 
@@ -27,15 +29,14 @@ export const DashboardInfo = observer((): JSX.Element => {
 
 	const changeNewData = async (data: dashboardInfoResponse, changeData: dashboardInfoResponse): Promise<void> => {
 		changeData.State = 'booked';
+
 		if (data.UserId) {
 			changeData.UserId = data.UserId;
 		}
+
 		changeData.TakeAt = data.TakeAt;
-
 		changeData.TakeAt.setHours(3, 0, 0);
-
 		changeData.ReturnAt = data.ReturnAt;
-
 		changeData.ReturnAt.setHours(23, 59, 59);
 	};
 

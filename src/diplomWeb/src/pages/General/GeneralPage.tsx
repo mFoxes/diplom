@@ -1,17 +1,22 @@
 import { Box, CssBaseline, Drawer, Toolbar } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { authStore, Context } from '../..';
 import { DrawerBody } from '../../components/drawerBody/DrawerBody';
 import { GeneralPageBar } from '../../components/generalPageBar/GeneralPageBar';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
 import { DRAWER_HEIGHT, DRAWER_WIDTH } from '../../staticData';
+import EmployeeStore from '../../store/EmployeesStore';
+import GeneralStore from '../../store/GeneralStore';
 import EmployeeInfo from '../modals/employeeInfo/EmployeeInfo';
 import { ExitModal } from '../modals/general/ExitModal';
 import { OverdueModal } from '../modals/overdue/OverdueModal';
+import AuthStore from '../../store/AuthStore';
 
 export const GeneralPage = observer((): JSX.Element => {
-	const { generalStore, employeesStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	return (
 		<Box sx={{ display: 'flex' }}>

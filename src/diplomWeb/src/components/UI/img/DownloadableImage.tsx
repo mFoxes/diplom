@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../..';
+import { useEffect, useState } from 'react';
+import { useInject } from '../../../hooks/useInject';
+import { Types } from '../../../inversify/inversify.types';
 import { IDownloadableImage } from '../../../models/interfaces/IDownloadableImage';
-import DownloadableImageService from '../../../service/DownloadableImgService';
+import PhotosCacheStore from '../../../store/base/helpers/PhotosCacheStore';
 
 export const DownloadableImage = observer(({ photoId, emptyPhoto, ...props }: IDownloadableImage): JSX.Element => {
-	const { photosCacheStore } = useContext(Context);
+	const photosCacheStore = useInject<PhotosCacheStore>(Types.PhotosCacheStore);
 
 	const [photo, setPhoto] = useState<string>(emptyPhoto);
 
@@ -16,20 +17,13 @@ export const DownloadableImage = observer(({ photoId, emptyPhoto, ...props }: ID
 			if (photoCache) {
 				setPhoto(photoCache);
 			} else {
-				downloadImage(photoId);
+				const photo = await photosCacheStore.downloadImage(photoId);
+				if (photo) {
+					setPhoto(photo);
+				}
 			}
 		} else {
 			setPhoto(emptyPhoto);
-		}
-	};
-
-	const downloadImage = async (photoId: string): Promise<void> => {
-		const res = await DownloadableImageService.getPhotoById(photoId);
-
-		if (res?.data.size !== 0 && res) {
-			const photo = URL.createObjectURL(res?.data);
-			setPhoto(photo);
-			photosCacheStore.setPhotoByKey(photoId, photo);
 		}
 	};
 

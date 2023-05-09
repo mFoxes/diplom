@@ -3,9 +3,11 @@ import { grey } from '@mui/material/colors';
 import { observer } from 'mobx-react-lite';
 import { BaseSyntheticEvent, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { generalStore } from '../..';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
 import { IData } from '../../models/interfaces/IData';
 import { dataInfoResponse } from '../../models/interfaces/response/dataInfoResponse';
+import GeneralStore from '../../store/GeneralStore';
 import TableDataStore from '../../store/base/TableDataStore';
 
 export interface IModalInfo<IItem extends IData, IInfoResponse extends dataInfoResponse> {
@@ -17,6 +19,8 @@ export interface IModalInfo<IItem extends IData, IInfoResponse extends dataInfoR
 const ModalInfo = <IItem extends IData, IInfoResponse extends dataInfoResponse>(
 	props: IModalInfo<IItem, IInfoResponse>,
 ): JSX.Element => {
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+
 	const methods = useFormContext();
 	const { modalInfo } = props.store;
 

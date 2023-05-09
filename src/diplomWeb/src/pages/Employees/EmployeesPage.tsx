@@ -1,22 +1,25 @@
 import { Edit } from '@mui/icons-material';
 import { Box, Button, Card, CardContent, Grid, IconButton, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
-import { Context } from '../..';
+import { useEffect } from 'react';
 import { SortBtn } from '../../components/UI/icons/sort/SortBtn';
 import { DownloadableImage } from '../../components/UI/img/DownloadableImage';
 import { InputFilter } from '../../components/UI/input/InputFilter';
 import { ListPagination } from '../../components/UI/pagination/ListPagination';
+import { useInject } from '../../hooks/useInject';
 import employeePhotoEmpty from '../../img/employeePhotoEmpty.png';
+import { Types } from '../../inversify/inversify.types';
 import { IEmployee } from '../../models/interfaces/IEmployee';
 import { IErrorType } from '../../models/interfaces/IErrorType';
+import EmployeeStore from '../../store/EmployeesStore';
+import GeneralStore from '../../store/GeneralStore';
 import { nameof } from '../../utilities/Utilities';
-import EmployeeInfo from '../modals/employeeInfo/EmployeeInfo';
 
 const EmployeesPage = (): JSX.Element => {
-	const { generalStore, employeesStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
+	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
 
-	const { params, modalInfo } = employeesStore;
+	const { params } = employeesStore;
 
 	const { skip, take, orderBy, orderDir } = params;
 

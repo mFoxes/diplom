@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Close } from '@mui/icons-material';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import ModalInfo from '../../../components/modal/ModalInfo';
 import { ModalImgField } from '../../../components/modalField/ModalImgField';
 import { ModalInputField } from '../../../components/modalField/ModalInputField';
@@ -12,10 +11,13 @@ import { DeviceInfoSchema } from '../../../models/schemas/DeviceInfoSchema';
 import { nameof } from '../../../utilities/Utilities';
 
 import { observer } from 'mobx-react-lite';
+import { useInject } from '../../../hooks/useInject';
 import deviceEmptyPhoto from '../../../img/devicePhotoEmpty.png';
+import { Types } from '../../../inversify/inversify.types';
+import DevicesStore from '../../../store/DevicesStore';
 
 export const DeviceInfo = observer((): JSX.Element => {
-	const { devicesStore } = useContext(Context);
+	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
 
 	const { modalInfo } = devicesStore;
 

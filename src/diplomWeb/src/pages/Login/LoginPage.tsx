@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Input } from '../../components/UI/input/Input';
 import { ILogin } from '../../models/interfaces/ILogin';
@@ -8,13 +8,14 @@ import { LoginSchema } from '../../models/schemas/LoginSchema';
 
 import { KeyboardBackspace } from '@mui/icons-material';
 import { Box, Button, Checkbox, CssBaseline, FormControlLabel, IconButton } from '@mui/material';
-import { Context } from '../..';
 import { Logo } from '../../components/logo/Logo';
-import { history } from '../../history/history';
 import { nameof } from '../../utilities/Utilities';
+import { useInject } from '../../hooks/useInject';
+import AuthStore from '../../store/AuthStore';
+import { Types } from '../../inversify/inversify.types';
 
 export const LoginPage = observer((): JSX.Element => {
-	const { authStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	const methods = useForm<ILogin>({
 		mode: 'all',

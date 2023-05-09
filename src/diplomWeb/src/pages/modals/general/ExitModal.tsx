@@ -1,12 +1,13 @@
 import { Box, Button, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
-import { Context } from '../../..';
 import { ModalConfirm } from '../../../components/modal/ModalConfirm';
 import { CancelButton } from '../../../components/UI/cancelButton/CancelButton';
+import AuthStore from '../../../store/AuthStore';
+import { useInject } from '../../../hooks/useInject';
+import { Types } from '../../../inversify/inversify.types';
 
 export const ExitModal = observer((): JSX.Element => {
-	const { authStore } = useContext(Context);
+	const authStore = useInject<AuthStore>(Types.AuthStore);
 
 	const { modalConfirm } = authStore;
 

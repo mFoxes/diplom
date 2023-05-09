@@ -1,8 +1,9 @@
 import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Context } from '../..';
+import { useInject } from '../../hooks/useInject';
+import { Types } from '../../inversify/inversify.types';
+import GeneralStore from '../../store/GeneralStore';
 
 interface INavigationItem {
 	to: string;
@@ -11,7 +12,7 @@ interface INavigationItem {
 }
 
 export const NavigationItem = observer((props: INavigationItem): JSX.Element => {
-	const { generalStore } = useContext(Context);
+	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 
 	return (
 		<ListItem disablePadding>

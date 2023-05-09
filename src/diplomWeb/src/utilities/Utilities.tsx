@@ -1,12 +1,12 @@
 import html2canvas from 'html2canvas';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { FieldError } from 'react-hook-form';
 import { QrCodeImg } from '../components/qrCodeImg/QrCodeImg';
 import { errorResponse } from '../models/interfaces/response/errorResponse';
-import ErrorsHelper from '../helpers/errorsHelpers';
-import { renderToStaticMarkup } from 'react-dom/server';
 
-import download from 'downloadjs';
 import { format } from 'date-fns';
+import download from 'downloadjs';
+import ErrorsHelper from '../helpers/ErrorsHelpers';
 
 export const nameof = <T,>(name: keyof T): keyof T => name;
 
