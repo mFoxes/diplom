@@ -6,6 +6,7 @@ import { IPageDataResponse } from '../../models/interfaces/response/IPageDataRes
 import { AxiosApi } from './base/axiosApi';
 import { AxiosResponse } from 'axios';
 import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
+import { URL_FACTORY } from '../../helpers/urlFactory';
 
 export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 	private _requestAddress = '';
@@ -29,13 +30,13 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 	}
 
 	public async syncTableData(): Promise<Either<AxiosResponse<IErrorResponse[]>, void>> {
-		const req = this._post<void>({ url: `${this._requestAddress}/sync` });
+		const req = this._post<void>({ url: URL_FACTORY.sync(this._requestAddress) });
 
 		return this._doApiRequest(req);
 	}
 
 	public async getTableDataInfo(id: string): Promise<Either<AxiosResponse<IErrorResponse[]>, IInfoResponse>> {
-		const req = this._get<IInfoResponse>({ url: `${this._requestAddress}/${id}` });
+		const req = this._get<IInfoResponse>({ url: URL_FACTORY.tableDataInfo(this._requestAddress, id) });
 
 		return this._doApiRequest(req);
 	}
@@ -44,13 +45,16 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 		id: string,
 		data: IInfoResponse,
 	): Promise<Either<AxiosResponse<IErrorResponse[]>, IInfoResponse>> {
-		const req = this._put<IInfoResponse>({ url: `${this._requestAddress}/${id}`, payload: data });
+		const req = this._put<IInfoResponse>({
+			url: URL_FACTORY.tableDataInfo(this._requestAddress, id),
+			payload: data,
+		});
 
 		return this._doApiRequest(req);
 	}
 
 	public async getTableDataPhoto(fileId: string): Promise<Either<AxiosResponse<IErrorResponse[]>, File>> {
-		const req = this._get<File>({ url: `files/${fileId}`, payload: { responseType: 'blob' } });
+		const req = this._get<File>({ url: URL_FACTORY.tableDataPhoto(fileId), payload: { responseType: 'blob' } });
 
 		return this._doApiRequest(req);
 	}
@@ -59,7 +63,7 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 		const formData = new FormData();
 		formData.append('image', file);
 		const req = this._post<{ File: string }>({
-			url: 'files/',
+			url: URL_FACTORY.files,
 			payload: formData,
 			config: {
 				headers: {
@@ -72,7 +76,7 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 	}
 
 	public async deleteTableData(id: string): Promise<Either<AxiosResponse<IErrorResponse[]>, void>> {
-		const req = this._delete<void>({ url: `${this._requestAddress}/${id}` });
+		const req = this._delete<void>({ url: URL_FACTORY.tableDataInfo(this._requestAddress, id) });
 
 		return this._doApiRequest(req);
 	}
@@ -86,7 +90,7 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 	}
 
 	public async getAllEmployeeNames(): Promise<Either<AxiosResponse<IErrorResponse[]>, IEmployee[]>> {
-		const req = this._get<IEmployee[]>({ url: 'users/usernames' });
+		const req = this._get<IEmployee[]>({ url: URL_FACTORY.usernames });
 
 		return this._doApiRequest(req);
 	}
@@ -94,7 +98,7 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 	public async getDeviceHistory(
 		id: string,
 	): Promise<Either<AxiosResponse<IErrorResponse[]>, IDeviceHistoryResponse>> {
-		const req = this._get<IDeviceHistoryResponse>({ url: `devices/${id}/history` });
+		const req = this._get<IDeviceHistoryResponse>({ url: URL_FACTORY.deviceHistory(id) });
 
 		return this._doApiRequest(req);
 	}

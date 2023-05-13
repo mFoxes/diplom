@@ -14,6 +14,7 @@ import { useInject } from '../../hooks/useInject';
 import AuthStore from '../../store/AuthStore';
 import { Types } from '../../inversify/inversify.types';
 import { history } from '../../history/history';
+import { HISTORY_URL } from '../../history/historyUrl';
 
 export const LoginPage = observer((): JSX.Element => {
 	const authStore = useInject<AuthStore>(Types.AuthStore);
@@ -65,7 +66,7 @@ export const LoginPage = observer((): JSX.Element => {
 				<CssBaseline />
 				<IconButton
 					onClick={(): void => {
-						history.push('/');
+						history.push(HISTORY_URL.main);
 					}}
 					sx={{ position: 'absolute', top: '0', left: '0', padding: '20px' }}
 				>

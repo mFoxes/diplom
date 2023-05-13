@@ -6,11 +6,12 @@ import IOverdueListResponse from '../../models/interfaces/response/IOverdueListR
 import { injectable } from 'inversify';
 import { AxiosResponse } from 'axios';
 import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
+import { URL_FACTORY } from '../../helpers/urlFactory';
 
 @injectable()
 export default class CurrentEmployeeService extends AxiosApi {
 	public async getCurrentEmployee(): Promise<Either<AxiosResponse<IErrorResponse[]>, ICurrentEmployee>> {
-		const req = this._get<ICurrentEmployee>({ url: 'users/current' });
+		const req = this._get<ICurrentEmployee>({ url: URL_FACTORY.usersCurrent });
 
 		return this._doApiRequest(req);
 	}
@@ -18,13 +19,13 @@ export default class CurrentEmployeeService extends AxiosApi {
 	public async getCurrentEmployeeOverdueCount(): Promise<
 		Either<AxiosResponse<IErrorResponse[]>, IOverdueCountResponse>
 	> {
-		const req = this._get<IOverdueCountResponse>({ url: 'bookings/overdue' });
+		const req = this._get<IOverdueCountResponse>({ url: URL_FACTORY.bookingsOverdue });
 
 		return this._doApiRequest(req);
 	}
 
 	public async getCurrentEmployeeOverdue(): Promise<Either<AxiosResponse<IErrorResponse[]>, IOverdueListResponse>> {
-		const req = this._get<IOverdueListResponse>({ url: 'bookings/overdue/list' });
+		const req = this._get<IOverdueListResponse>({ url: URL_FACTORY.bookingsOverdueList });
 
 		return this._doApiRequest(req);
 	}

@@ -9,6 +9,8 @@ import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { CONFIG_JWT } from '../authService';
 import LocalStorageService from '../../localStorageService';
 import { history } from '../../../history/history';
+import { HISTORY_URL } from '../../../history/historyUrl';
+import { URL_FACTORY } from '../../../helpers/urlFactory';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
@@ -93,7 +95,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		params.append(urlSearchParamsTypeConstants.refreshToken, refreshToken);
 		params.append(urlSearchParamsTypeConstants.clientId, CLIENT_ID);
 
-		const req = this._post<IJwtResponse>({ url: 'connect/token', payload: params, config: CONFIG_JWT });
+		const req = this._post<IJwtResponse>({ url: URL_FACTORY.token, payload: params, config: CONFIG_JWT });
 
 		const res = await this._doApiRequest(req);
 
@@ -108,7 +110,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 	};
 
 	private incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
-		history.push('/login');
+		history.push(HISTORY_URL.login);
 		return Promise.reject(res ?? 'refresh in local storage not found');
 	};
 }
