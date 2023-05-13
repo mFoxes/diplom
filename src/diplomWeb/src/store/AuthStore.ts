@@ -10,6 +10,7 @@ import LocalStorageService from '../service/localStorageService';
 import ErrorStore from './base/helpers/ErrorStore';
 import ModalConfirmStore from './base/helpers/ModalConfirmStore';
 import OverdueStore from './base/helpers/OverdueStore';
+import { history } from '../history/history';
 
 @injectable()
 export default class AuthStore {
@@ -61,8 +62,7 @@ export default class AuthStore {
 		if (res.isRight()) {
 			this._localStorageService.saveJwt(res.value);
 			this._localStorageService.saveRememberMe(remember);
-			// TODO: history!!!
-			//history.back();
+			history.back();
 			this.errorStore.setError(undefined);
 			this.getCurrentEmployee();
 		} else {
@@ -76,8 +76,7 @@ export default class AuthStore {
 	public logout(): void {
 		this.setCurrentEmployee(undefined);
 		this._localStorageService.removeJwt();
-		// TODO: history!!!
-		//history.push('/');
+		history.push('/');
 	}
 
 	public getRemainingJwtLife(): number {
