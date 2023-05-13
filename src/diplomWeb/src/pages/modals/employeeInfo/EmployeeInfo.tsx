@@ -20,8 +20,9 @@ import { nameof } from '../../../utilities/Utilities';
 const EmployeeInfo = (): JSX.Element => {
 	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
 	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const { tableDataStore: employeesTableStore } = employeesStore;
 
-	const { modalInfo } = employeesStore;
+	const { modalInfo } = employeesTableStore;
 
 	const methods = useForm<IEmployeeInfoResponse>({
 		mode: 'all',
@@ -34,10 +35,10 @@ const EmployeeInfo = (): JSX.Element => {
 	};
 
 	const chooseSaveMethod = async (originDeviceInfo: IEmployeeInfoResponse): Promise<void> => {
-		if (employeesStore.modalInfo.tableDataInfoId === authStore.currentEmployee?.Id) {
-			employeesStore.updateTableInfo(originDeviceInfo, () => authStore.getCurrentEmployee());
+		if (employeesTableStore.modalInfo.tableDataInfoId === authStore.currentEmployee?.Id) {
+			employeesTableStore.updateTableInfo(originDeviceInfo, () => authStore.getCurrentEmployee());
 		} else {
-			employeesStore.updateTableInfo(originDeviceInfo);
+			employeesTableStore.updateTableInfo(originDeviceInfo);
 		}
 	};
 
@@ -46,7 +47,7 @@ const EmployeeInfo = (): JSX.Element => {
 		if (originEmployeeInfo) {
 			changeNewData(data, originEmployeeInfo);
 
-			await employeesStore.changePhoto(
+			await employeesTableStore.changePhoto(
 				methods,
 				nameof<IEmployeeInfoResponse>('Photo'),
 				data.Photo,
@@ -62,7 +63,7 @@ const EmployeeInfo = (): JSX.Element => {
 
 	return (
 		<FormProvider {...methods}>
-			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={employeesStore}>
+			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={employeesTableStore}>
 				<>
 					<IconButton
 						onClick={(): void => {

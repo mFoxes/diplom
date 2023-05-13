@@ -32,8 +32,9 @@ import { DeleteModal } from '../modals/general/DeleteModal';
 const DevicesPage = (): JSX.Element => {
 	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
+	const { tableDataStore: devicesTableStore } = devicesStore;
 
-	const { params, modalInfo, modalConfirm, modalDeviceHistory } = devicesStore;
+	const { params, modalInfo, modalConfirm, modalDeviceHistory } = devicesTableStore;
 
 	const { skip, take, orderBy, orderDir } = params;
 
@@ -43,7 +44,7 @@ const DevicesPage = (): JSX.Element => {
 	}, []);
 
 	useEffect((): void => {
-		devicesStore.updateTableData();
+		devicesTableStore.updateTableData();
 	}, [skip, take, orderBy, orderDir]);
 
 	return (
@@ -90,12 +91,12 @@ const DevicesPage = (): JSX.Element => {
 						<InputFilter
 							inputName={nameof<IDevices>('InventoryNumber')}
 							placeholder={'Поиск по инвентарному номеру'}
-							store={devicesStore}
+							store={devicesTableStore}
 						/>
 						<InputFilter
 							inputName={nameof<IDevices>('Name')}
 							placeholder={'Поиск по названию'}
-							store={devicesStore}
+							store={devicesTableStore}
 						/>
 					</Box>
 				</Box>
@@ -126,8 +127,8 @@ const DevicesPage = (): JSX.Element => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{devicesStore.items &&
-								devicesStore.items.map((item, indx) => (
+							{devicesTableStore.items &&
+								devicesTableStore.items.map((item, indx) => (
 									<TableRow
 										key={item.Name + indx}
 										sx={{ '&:last-child td, &:last-child th': { border: 0 }, maxHeight: '20px' }}
@@ -157,8 +158,8 @@ const DevicesPage = (): JSX.Element => {
 											</IconButton>
 											<IconButton
 												onClick={(): void => {
-													devicesStore.modalConfirm.setItem(item);
-													devicesStore.modalConfirm.modalStore.handleOpen();
+													devicesTableStore.modalConfirm.setItem(item);
+													devicesTableStore.modalConfirm.modalStore.handleOpen();
 												}}
 											>
 												<Delete />
@@ -174,8 +175,8 @@ const DevicesPage = (): JSX.Element => {
 
 											<IconButton
 												onClick={(): void => {
-													devicesStore.getDeviceHistory(item.Id);
-													devicesStore.modalDeviceHistory.modalStore.handleOpen();
+													devicesTableStore.getDeviceHistory(item.Id);
+													devicesTableStore.modalDeviceHistory.modalStore.handleOpen();
 												}}
 											>
 												<ListAlt />
@@ -190,7 +191,7 @@ const DevicesPage = (): JSX.Element => {
 			{modalInfo.modalStore.modalActive ? <DeviceInfo /> : ''}
 			{modalConfirm.modalStore.modalActive ? <DeleteModal /> : ''}
 			{modalDeviceHistory.modalStore.modalActive ? <DeviceHistory deviceHistoryStore={modalDeviceHistory} /> : ''}
-			<ListPagination store={devicesStore} />
+			<ListPagination store={devicesTableStore} />
 		</Box>
 	);
 };

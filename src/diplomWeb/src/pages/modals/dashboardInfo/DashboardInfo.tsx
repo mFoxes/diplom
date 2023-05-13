@@ -19,8 +19,9 @@ import { Types } from '../../../inversify/inversify.types';
 
 export const DashboardInfo = observer((): JSX.Element => {
 	const dashboardStore = useInject<DashboardStore>(Types.DashboardStore);
+	const { tableDataStore: dashboardTableStore } = dashboardStore;
 
-	const { modalInfo } = dashboardStore;
+	const { modalInfo } = dashboardTableStore;
 
 	const methods = useForm<IDashboardInfoResponse>({
 		mode: 'all',
@@ -46,12 +47,12 @@ export const DashboardInfo = observer((): JSX.Element => {
 		if (originDashboardInfo) {
 			await changeNewData(data, originDashboardInfo);
 
-			await dashboardStore.updateTableInfo(originDashboardInfo);
+			await dashboardTableStore.updateTableInfo(originDashboardInfo);
 		}
 	};
 
 	const loadDataInfo = async (): Promise<void> => {
-		await dashboardStore.getTableDataInfo();
+		await dashboardTableStore.getTableDataInfo();
 
 		if (modalInfo.tableDataInfo?.State === 'free') {
 			await dashboardStore.getAllEmployeeNames();
@@ -81,7 +82,7 @@ export const DashboardInfo = observer((): JSX.Element => {
 
 	return (
 		<FormProvider {...methods}>
-			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={dashboardStore}>
+			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={dashboardTableStore}>
 				<>
 					<IconButton
 						onClick={(): void => {

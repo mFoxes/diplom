@@ -9,8 +9,9 @@ import DashboardStore from '../../../store/DashboardStore';
 
 export const ReturnModal = observer((): JSX.Element => {
 	const dashboardStore = useInject<DashboardStore>(Types.DashboardStore);
+	const { tableDataStore: dashboardTableStore } = dashboardStore;
 
-	const { modalConfirm } = dashboardStore;
+	const { modalConfirm } = dashboardTableStore;
 
 	const getChangeData = (): IDashboard | undefined => {
 		const data = { ...modalConfirm.item } as IDashboard;
@@ -26,13 +27,13 @@ export const ReturnModal = observer((): JSX.Element => {
 		const returnData = getChangeData();
 
 		if (returnData) {
-			dashboardStore.updateTableInfo(returnData);
+			dashboardTableStore.updateTableInfo(returnData);
 		}
 		modalConfirm.modalStore.handleClose();
 	};
 
 	return (
-		<ModalConfirm confirmStore={dashboardStore.modalConfirm}>
+		<ModalConfirm confirmStore={dashboardTableStore.modalConfirm}>
 			<>
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 					<Typography>Вы действительно хотите вернуть устройство?</Typography>

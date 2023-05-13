@@ -10,19 +10,20 @@ import { getErrorListByName, nameof } from '../../../utilities/Utilities';
 
 export const DeleteModal = observer((): JSX.Element => {
 	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
+	const { tableDataStore: devicesTableStore } = devicesStore;
 
-	const { modalConfirm } = devicesStore;
+	const { modalConfirm } = devicesTableStore;
 
 	const errorList = getErrorListByName(nameof<IDevices>('Id'), modalConfirm.errorStore.error);
 
 	const onSubmit = async (): Promise<void> => {
 		if (modalConfirm.item?.Id) {
-			devicesStore.deleteTableData(modalConfirm.item?.Id);
+			devicesTableStore.deleteTableData(modalConfirm.item?.Id);
 		}
 	};
 
 	return (
-		<ModalConfirm confirmStore={devicesStore.modalConfirm}>
+		<ModalConfirm confirmStore={devicesTableStore.modalConfirm}>
 			<>
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 					<Typography>Вы действительно хотите удалить устройство?</Typography>

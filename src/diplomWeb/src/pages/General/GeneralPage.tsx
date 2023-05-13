@@ -17,6 +17,7 @@ export const GeneralPage = observer((): JSX.Element => {
 	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
 	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const { tableDataStore: employeesTableStore } = employeesStore;
 
 	return (
 		<Box sx={{ display: 'flex' }}>
@@ -73,7 +74,7 @@ export const GeneralPage = observer((): JSX.Element => {
 				<Outlet />
 			</Box>
 			<ExitModal />
-			{employeesStore.modalInfo.modalStore.modalActive ? <EmployeeInfo /> : ''}
+			{employeesTableStore.modalInfo.modalStore.modalActive ? <EmployeeInfo /> : ''}
 			{authStore.overdueStore.modalStore.modalActive ? <OverdueModal /> : ''}
 		</Box>
 	);

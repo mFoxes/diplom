@@ -13,6 +13,7 @@ interface IEmployeeMenu {
 export const EmployeeMenu = observer(({ anchorEl, ...props }: IEmployeeMenu): JSX.Element => {
 	const authStore = useInject<AuthStore>(Types.AuthStore);
 	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
+	const { tableDataStore: employeesTableStore } = employeesStore;
 
 	return (
 		<Menu
@@ -37,9 +38,9 @@ export const EmployeeMenu = observer(({ anchorEl, ...props }: IEmployeeMenu): JS
 				key={'edit'}
 				onClick={(): void => {
 					if (authStore.currentEmployee?.Id) {
-						employeesStore.modalInfo.setTableDataInfoId(authStore.currentEmployee?.Id);
-						employeesStore.modalInfo.setTableDataInfo(authStore.currentEmployee);
-						employeesStore.modalInfo.modalStore.handleOpen();
+						employeesTableStore.modalInfo.setTableDataInfoId(authStore.currentEmployee?.Id);
+						employeesTableStore.modalInfo.setTableDataInfo(authStore.currentEmployee);
+						employeesTableStore.modalInfo.modalStore.handleOpen();
 					}
 					authStore.handleMenuClose();
 				}}
