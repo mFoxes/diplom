@@ -2,7 +2,7 @@ import { PaletteMode } from '@mui/material';
 import { makeAutoObservable } from 'mobx';
 import { inject, injectable } from 'inversify';
 import { Types } from '../inversify/inversify.types';
-import LocalStorageService from '../service/localStorageServiceewq';
+import LocalStorageService from '../service/localStorageService';
 
 @injectable()
 export default class GeneralStore {

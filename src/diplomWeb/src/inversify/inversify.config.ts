@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import AuthService from '../service/api/authService';
 import CurrentEmployeeService from '../service/api/currentEmployeeService';
 import DownloadableImageService from '../service/api/downloadableImgService';
-import LocalStorageService from '../service/localStorageServiceewq';
+import LocalStorageService from '../service/localStorageService';
 import SignalR from '../signalR/SignalR';
 import SignalRSubscribers from '../signalR/SignalRSubscribers';
 import AuthStore from '../store/AuthStore';
