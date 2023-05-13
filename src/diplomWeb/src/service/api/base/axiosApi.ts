@@ -7,7 +7,7 @@ import { Types } from '../../../inversify/inversify.types';
 import { IJwtResponse } from '../../../models/interfaces/response/IJwtResponse';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { CONFIG_JWT } from '../authService';
-import LocalStorageService from '../../localStorageService';
+import LocalStorageService from '../../localStorageServiceewq';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
