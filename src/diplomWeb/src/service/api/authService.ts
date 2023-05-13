@@ -6,6 +6,7 @@ import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../constants/authConstants';
 import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
 import { AxiosResponse } from 'axios';
+import { URL_FACTORY } from '../../helpers/urlFactory';
 
 export const CONFIG_JWT = {
 	headers: {
@@ -17,7 +18,7 @@ export const CONFIG_JWT = {
 export default class AuthService extends AxiosApi {
 	public async authRequest(params: URLSearchParams): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
 		const req = this._post<IJwtResponse>({
-			url: 'connect/token',
+			url: URL_FACTORY.token,
 			payload: params,
 			config: CONFIG_JWT,
 		});

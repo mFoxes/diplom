@@ -11,6 +11,7 @@ import ErrorStore from './base/helpers/ErrorStore';
 import ModalConfirmStore from './base/helpers/ModalConfirmStore';
 import OverdueStore from './base/helpers/OverdueStore';
 import { history } from '../history/history';
+import { HISTORY_URL } from '../history/historyUrl';
 
 @injectable()
 export default class AuthStore {
@@ -76,7 +77,7 @@ export default class AuthStore {
 	public logout(): void {
 		this.setCurrentEmployee(undefined);
 		this._localStorageService.removeJwt();
-		history.push('/');
+		history.push(HISTORY_URL.main);
 	}
 
 	public getRemainingJwtLife(): number {
