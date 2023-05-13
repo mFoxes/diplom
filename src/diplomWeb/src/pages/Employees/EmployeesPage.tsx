@@ -17,14 +17,15 @@ import { nameof } from '../../utilities/Utilities';
 const EmployeesPage = (): JSX.Element => {
 	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 	const employeesStore = useInject<EmployeeStore>(Types.EmployeeStore);
+	const { tableDataStore: employeesTableStore } = employeesStore;
 
-	const { params } = employeesStore;
+	const { params } = employeesTableStore;
 
 	const { skip, take, orderBy, orderDir } = params;
 
 	const syncBtn = async (): Promise<void> => {
 		await employeesStore.syncEmployees();
-		employeesStore.updateTableData();
+		employeesTableStore.updateTableData();
 	};
 
 	useEffect(() => {
@@ -34,7 +35,7 @@ const EmployeesPage = (): JSX.Element => {
 	}, []);
 
 	useEffect((): void => {
-		employeesStore.updateTableData();
+		employeesTableStore.updateTableData();
 	}, [skip, take, orderBy, orderDir]);
 
 	return (
@@ -79,13 +80,13 @@ const EmployeesPage = (): JSX.Element => {
 						<InputFilter
 							inputName={nameof<IEmployee>('Name')}
 							placeholder={'Поиск по названию'}
-							store={employeesStore}
+							store={employeesTableStore}
 						/>
 					</Box>
 				</Box>
 				<Grid container spacing={{ xs: 2 }} maxWidth={{ sm: '600px', md: '900px', xl: '1200px' }}>
-					{employeesStore.items &&
-						employeesStore.items.map((item) => (
+					{employeesTableStore.items &&
+						employeesTableStore.items.map((item) => (
 							<Grid
 								item
 								key={item.Id}
@@ -126,8 +127,8 @@ const EmployeesPage = (): JSX.Element => {
 											</Typography>
 											<IconButton
 												onClick={(): void => {
-													employeesStore.modalInfo.modalStore.handleOpen();
-													employeesStore.modalInfo.setTableDataInfoId(item.Id);
+													employeesTableStore.modalInfo.modalStore.handleOpen();
+													employeesTableStore.modalInfo.setTableDataInfoId(item.Id);
 												}}
 											>
 												<Edit />
@@ -139,7 +140,7 @@ const EmployeesPage = (): JSX.Element => {
 						))}
 				</Grid>
 			</Box>
-			<ListPagination store={employeesStore} />
+			<ListPagination store={employeesTableStore} />
 		</Box>
 	);
 };

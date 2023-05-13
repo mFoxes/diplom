@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { IEventSubscriber } from '../models/interfaces/IEventSubscriber';
+import { injectable } from 'inversify';
 
+@injectable()
 export default class EventSubscriber<EventData> implements IEventSubscriber<EventData> {
 	private _method: ((data?: EventData | undefined) => void) | undefined;
 

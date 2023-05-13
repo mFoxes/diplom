@@ -18,8 +18,9 @@ import DevicesStore from '../../../store/DevicesStore';
 
 export const DeviceInfo = observer((): JSX.Element => {
 	const devicesStore = useInject<DevicesStore>(Types.DevicesStore);
+	const { tableDataStore: devicesTableStore } = devicesStore;
 
-	const { modalInfo } = devicesStore;
+	const { modalInfo } = devicesTableStore;
 
 	const methods = useForm<IDevicesInfoResponse>({
 		mode: 'all',
@@ -28,9 +29,9 @@ export const DeviceInfo = observer((): JSX.Element => {
 
 	const chooseSaveMethod = async (originDeviceInfo: IDevicesInfoResponse): Promise<void> => {
 		if (modalInfo.tableDataInfoId === '') {
-			await devicesStore.addNewTableInfo(originDeviceInfo);
+			await devicesTableStore.addNewTableInfo(originDeviceInfo);
 		} else if (originDeviceInfo.Id) {
-			await devicesStore.updateTableInfo(originDeviceInfo);
+			await devicesTableStore.updateTableInfo(originDeviceInfo);
 		}
 	};
 
@@ -62,7 +63,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 
 		await changeNewData(data, changeData);
 
-		await devicesStore.changePhoto(
+		await devicesTableStore.changePhoto(
 			methods,
 			nameof<IDevicesInfoResponse>('Photo'),
 			data.Photo,
@@ -80,7 +81,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 
 	return (
 		<FormProvider {...methods}>
-			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={devicesStore}>
+			<ModalInfo onFormSubmit={methods.handleSubmit(onSubmit)} store={devicesTableStore}>
 				<>
 					<IconButton
 						onClick={(): void => {

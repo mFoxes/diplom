@@ -32,17 +32,19 @@ export const DashboardPage = observer((): JSX.Element => {
 	const dashboardStore = useInject<DashboardStore>(Types.DashboardStore);
 	const generalStore = useInject<GeneralStore>(Types.GeneralStore);
 	const authStore = useInject<AuthStore>(Types.AuthStore);
+	const { tableDataStore: dashboardTableStore } = dashboardStore;
 
-	const { params, modalInfo, modalConfirm, modalDeviceHistory } = dashboardStore;
+	const { params, modalInfo, modalConfirm, modalDeviceHistory } = dashboardTableStore;
 
 	const { skip, take, orderBy, orderDir } = params;
 
 	useEffect(() => {
 		generalStore.setPageTitle('Дашборд');
+		dashboardStore.initSignalRSubscription();
 	}, []);
 
 	useEffect((): void => {
-		dashboardStore.updateTableData();
+		dashboardTableStore.updateTableData();
 	}, [skip, take, orderBy, orderDir]);
 
 	return (
@@ -70,17 +72,17 @@ export const DashboardPage = observer((): JSX.Element => {
 					<InputFilter
 						inputName={nameof<IDashboard>('InventoryNumber')}
 						placeholder={'Поиск по инвентарному номеру'}
-						store={dashboardStore}
+						store={dashboardTableStore}
 					/>
 					<InputFilter
 						inputName={nameof<IDashboard>('Name')}
 						placeholder={'Поиск по названию устройства'}
-						store={dashboardStore}
+						store={dashboardTableStore}
 					/>
 					<InputFilter
 						inputName={nameof<IDashboard>('TakedBy')}
 						placeholder={'Поиск по имени сотрудника'}
-						store={dashboardStore}
+						store={dashboardTableStore}
 					/>
 				</Box>
 				<TableContainer component={Paper} sx={{ width: '100%', display: 'flex' }}>
@@ -114,8 +116,8 @@ export const DashboardPage = observer((): JSX.Element => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{dashboardStore.items &&
-								dashboardStore.items.map((item, indx) => (
+							{dashboardTableStore.items &&
+								dashboardTableStore.items.map((item, indx) => (
 									<TableRow
 										key={item.Name + indx}
 										sx={{
@@ -164,8 +166,8 @@ export const DashboardPage = observer((): JSX.Element => {
 
 											<IconButton
 												onClick={(): void => {
-													dashboardStore.getDeviceHistory(item.DeviceId);
-													dashboardStore.modalDeviceHistory.modalStore.handleOpen();
+													dashboardTableStore.getDeviceHistory(item.DeviceId);
+													dashboardTableStore.modalDeviceHistory.modalStore.handleOpen();
 												}}
 											>
 												<ListAlt />
@@ -177,7 +179,7 @@ export const DashboardPage = observer((): JSX.Element => {
 					</Table>
 				</TableContainer>
 			</Box>
-			<ListPagination store={dashboardStore} />
+			<ListPagination store={dashboardTableStore} />
 			{modalInfo.modalStore.modalActive ? <DashboardInfo /> : ''}
 			{modalConfirm.modalStore.modalActive ? <ReturnModal /> : ''}
 			{modalDeviceHistory.modalStore.modalActive ? <DeviceHistory deviceHistoryStore={modalDeviceHistory} /> : ''}
