@@ -8,6 +8,7 @@ import { IJwtResponse } from '../../../models/interfaces/response/IJwtResponse';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { CONFIG_JWT } from '../authService';
 import LocalStorageService from '../../localStorageService';
+import { history } from '../../../history/history';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
@@ -107,8 +108,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 	};
 
 	private incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
-		// TODO: history!!!
-		// history.push('/login');
+		history.push('/login');
 		return Promise.reject(res ?? 'refresh in local storage not found');
 	};
 }
