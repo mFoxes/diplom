@@ -1,18 +1,18 @@
 import { makeAutoObservable } from 'mobx';
-import { errorResponse } from '../../../models/interfaces/response/errorResponse';
+import { IErrorResponse } from '../../../models/interfaces/response/IErrorResponse';
 
 export default class ErrorStore {
-	private _error: errorResponse[] | undefined;
+	private _error: IErrorResponse[] | undefined;
 
 	constructor() {
 		makeAutoObservable(this);
 	}
 
-	get error(): errorResponse[] | undefined {
+	get error(): IErrorResponse[] | undefined {
 		return this._error;
 	}
 
-	public setError(error: errorResponse[] | undefined): void {
+	public setError(error: IErrorResponse[] | undefined): void {
 		this._error = error;
 	}
 

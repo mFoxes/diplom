@@ -16,6 +16,12 @@ export const Types = {
 	PhotosCacheStore: Symbol('PhotosCacheStore'),
 	// stores end
 
+	// constant
+	DashboardRequestAddress: Symbol('bookings'),
+	DevicesRequestAddress: Symbol('devices'),
+	EmployeeRequestAddress: Symbol('users'),
+	// constant end
+
 	// signalR
 	SignalR: Symbol('SignalR'),
 	SignalRSubscribers: Symbol('SignalRSubscribers'),

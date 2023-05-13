@@ -11,7 +11,7 @@ import { ModalInputField } from '../../../components/modalField/ModalInputField'
 import { useInject } from '../../../hooks/useInject';
 import employeePhotoEmpty from '../../../img/employeePhotoEmpty.png';
 import { Types } from '../../../inversify/inversify.types';
-import { employeeInfoResponse } from '../../../models/interfaces/response/employeeInfoResponse';
+import { IEmployeeInfoResponse } from '../../../models/interfaces/response/IEmployeeInfoResponse';
 import { EmployeeInfoSchema } from '../../../models/schemas/EmployeeInfoSchema';
 import AuthStore from '../../../store/AuthStore';
 import EmployeeStore from '../../../store/EmployeesStore';
@@ -23,17 +23,17 @@ const EmployeeInfo = (): JSX.Element => {
 
 	const { modalInfo } = employeesStore;
 
-	const methods = useForm<employeeInfoResponse>({
+	const methods = useForm<IEmployeeInfoResponse>({
 		mode: 'all',
 		resolver: yupResolver(EmployeeInfoSchema),
 	});
 
-	const changeNewData = async (data: employeeInfoResponse, changeData: employeeInfoResponse): Promise<void> => {
+	const changeNewData = async (data: IEmployeeInfoResponse, changeData: IEmployeeInfoResponse): Promise<void> => {
 		changeData.Name = data.Name;
 		changeData.MattermostName = data.MattermostName;
 	};
 
-	const chooseSaveMethod = async (originDeviceInfo: employeeInfoResponse): Promise<void> => {
+	const chooseSaveMethod = async (originDeviceInfo: IEmployeeInfoResponse): Promise<void> => {
 		if (employeesStore.modalInfo.tableDataInfoId === authStore.currentEmployee?.Id) {
 			employeesStore.updateTableInfo(originDeviceInfo, () => authStore.getCurrentEmployee());
 		} else {
@@ -41,14 +41,14 @@ const EmployeeInfo = (): JSX.Element => {
 		}
 	};
 
-	const onSubmit = async (data: employeeInfoResponse): Promise<void> => {
-		const originEmployeeInfo = { ...modalInfo.tableDataInfo } as employeeInfoResponse;
+	const onSubmit = async (data: IEmployeeInfoResponse): Promise<void> => {
+		const originEmployeeInfo = { ...modalInfo.tableDataInfo } as IEmployeeInfoResponse;
 		if (originEmployeeInfo) {
 			changeNewData(data, originEmployeeInfo);
 
 			await employeesStore.changePhoto(
 				methods,
-				nameof<employeeInfoResponse>('Photo'),
+				nameof<IEmployeeInfoResponse>('Photo'),
 				data.Photo,
 				originEmployeeInfo,
 				chooseSaveMethod,
@@ -84,7 +84,7 @@ const EmployeeInfo = (): JSX.Element => {
 								photoId: modalInfo.tableDataInfo?.PhotoId,
 								photoEmpty: employeePhotoEmpty,
 								inputFileAttribute: {
-									inputName: nameof<employeeInfoResponse>('Photo'),
+									inputName: nameof<IEmployeeInfoResponse>('Photo'),
 									accept: '.jpg,.jpeg,.png',
 									serverErrorStore: modalInfo.errorStore,
 								},
@@ -94,7 +94,7 @@ const EmployeeInfo = (): JSX.Element => {
 						<ModalInputField
 							fieldName={'Логин Маттермоста'}
 							inputAttribute={{
-								inputName: nameof<employeeInfoResponse>('MattermostName'),
+								inputName: nameof<IEmployeeInfoResponse>('MattermostName'),
 								serverErrorStore: modalInfo.errorStore,
 								hasErrorField: true,
 							}}
@@ -104,7 +104,7 @@ const EmployeeInfo = (): JSX.Element => {
 							fieldName={'ФИО'}
 							hasColumnDirection
 							inputAttribute={{
-								inputName: nameof<employeeInfoResponse>('Name'),
+								inputName: nameof<IEmployeeInfoResponse>('Name'),
 								serverErrorStore: modalInfo.errorStore,
 								hasErrorField: true,
 							}}

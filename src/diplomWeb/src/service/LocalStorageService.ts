@@ -1,5 +1,5 @@
 import { PaletteMode } from '@mui/material';
-import { jwtResponse } from '../models/interfaces/response/jswResponse';
+import { IJwtResponse } from '../models/interfaces/response/IJwtResponse';
 import {
 	ACCESS_TOKEN,
 	REFRESH_TOKEN,
@@ -12,7 +12,7 @@ import { injectable } from 'inversify';
 
 @injectable()
 export default class LocalStorageService {
-	public saveJwt(data: jwtResponse): void {
+	public saveJwt(data: IJwtResponse): void {
 		localStorage.setItem(ACCESS_TOKEN, data.access_token);
 		localStorage.setItem(REFRESH_TOKEN, data.refresh_token);
 		localStorage.setItem(EXPIRES_IN, data.expires_in.toString());

@@ -1,5 +1,5 @@
 import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { dashboardInfoResponse } from '../models/interfaces/response/dashboardResponse';
+import { IDashboardInfoResponse } from '../models/interfaces/response/IDashboardResponse';
 import { API_URL } from '../staticData';
 import SignalRSubscribers from './SignalRSubscribers';
 import { inject } from 'inversify';
@@ -28,7 +28,7 @@ export default class SignalR {
 
 	private addFunctionListener(): void {
 		if (this._connection) {
-			this._connection.on('Notify', (device: dashboardInfoResponse) => {
+			this._connection.on('Notify', (device: IDashboardInfoResponse) => {
 				this._signalRSubscribers?.dashboardSubscriber.TriggerEvent(device);
 			});
 		}

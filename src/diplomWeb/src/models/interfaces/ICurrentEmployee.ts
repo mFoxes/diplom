@@ -1,5 +1,5 @@
-import { employeeInfoResponse } from './response/employeeInfoResponse';
+import { IEmployeeInfoResponse } from './response/IEmployeeInfoResponse';
 
-export interface ICurrentEmployee extends employeeInfoResponse {
+export interface ICurrentEmployee extends IEmployeeInfoResponse {
 	Role: 'admin' | 'employee';
 }

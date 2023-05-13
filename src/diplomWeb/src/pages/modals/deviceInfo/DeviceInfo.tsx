@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import ModalInfo from '../../../components/modal/ModalInfo';
 import { ModalImgField } from '../../../components/modalField/ModalImgField';
 import { ModalInputField } from '../../../components/modalField/ModalInputField';
-import { devicesInfoResponse } from '../../../models/interfaces/response/devicesInfoResponse';
+import { IDevicesInfoResponse } from '../../../models/interfaces/response/IDevicesInfoResponse';
 import { DeviceInfoSchema } from '../../../models/schemas/DeviceInfoSchema';
 import { nameof } from '../../../utilities/Utilities';
 
@@ -21,12 +21,12 @@ export const DeviceInfo = observer((): JSX.Element => {
 
 	const { modalInfo } = devicesStore;
 
-	const methods = useForm<devicesInfoResponse>({
+	const methods = useForm<IDevicesInfoResponse>({
 		mode: 'all',
 		resolver: yupResolver(DeviceInfoSchema),
 	});
 
-	const chooseSaveMethod = async (originDeviceInfo: devicesInfoResponse): Promise<void> => {
+	const chooseSaveMethod = async (originDeviceInfo: IDevicesInfoResponse): Promise<void> => {
 		if (modalInfo.tableDataInfoId === '') {
 			await devicesStore.addNewTableInfo(originDeviceInfo);
 		} else if (originDeviceInfo.Id) {
@@ -34,8 +34,8 @@ export const DeviceInfo = observer((): JSX.Element => {
 		}
 	};
 
-	const chooseData = (originDeviceInfo: devicesInfoResponse | undefined): devicesInfoResponse => {
-		let changeData: devicesInfoResponse;
+	const chooseData = (originDeviceInfo: IDevicesInfoResponse | undefined): IDevicesInfoResponse => {
+		let changeData: IDevicesInfoResponse;
 
 		if (modalInfo.tableDataInfoId !== '' && originDeviceInfo) {
 			changeData = originDeviceInfo;
@@ -50,13 +50,13 @@ export const DeviceInfo = observer((): JSX.Element => {
 		return changeData;
 	};
 
-	const changeNewData = async (data: devicesInfoResponse, changeData: devicesInfoResponse): Promise<void> => {
+	const changeNewData = async (data: IDevicesInfoResponse, changeData: IDevicesInfoResponse): Promise<void> => {
 		changeData.InventoryNumber = data.InventoryNumber;
 		changeData.Name = data.Name;
 	};
 
-	const onSubmit = async (data: devicesInfoResponse): Promise<void> => {
-		const originDeviceInfo = { ...modalInfo.tableDataInfo } as devicesInfoResponse;
+	const onSubmit = async (data: IDevicesInfoResponse): Promise<void> => {
+		const originDeviceInfo = { ...modalInfo.tableDataInfo } as IDevicesInfoResponse;
 
 		const changeData = chooseData(originDeviceInfo);
 
@@ -64,7 +64,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 
 		await devicesStore.changePhoto(
 			methods,
-			nameof<devicesInfoResponse>('Photo'),
+			nameof<IDevicesInfoResponse>('Photo'),
 			data.Photo,
 			changeData,
 			chooseSaveMethod,
@@ -106,7 +106,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 								photoId: modalInfo.tableDataInfo?.PhotoId,
 								photoEmpty: deviceEmptyPhoto,
 								inputFileAttribute: {
-									inputName: nameof<devicesInfoResponse>('Photo'),
+									inputName: nameof<IDevicesInfoResponse>('Photo'),
 									accept: '.jpg,.jpeg,.png',
 									serverErrorStore: modalInfo.errorStore,
 								},
@@ -116,7 +116,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 						<ModalInputField
 							fieldName={'Инвентарный номер'}
 							inputAttribute={{
-								inputName: nameof<devicesInfoResponse>('InventoryNumber'),
+								inputName: nameof<IDevicesInfoResponse>('InventoryNumber'),
 								serverErrorStore: modalInfo.errorStore,
 								hasErrorField: true,
 							}}
@@ -125,7 +125,7 @@ export const DeviceInfo = observer((): JSX.Element => {
 						<ModalInputField
 							fieldName={'Наименование'}
 							inputAttribute={{
-								inputName: nameof<devicesInfoResponse>('Name'),
+								inputName: nameof<IDevicesInfoResponse>('Name'),
 								serverErrorStore: modalInfo.errorStore,
 								hasErrorField: true,
 							}}

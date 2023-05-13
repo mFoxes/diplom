@@ -1,11 +1,14 @@
 import { action, makeObservable } from 'mobx';
 import { IEmployee } from '../models/interfaces/IEmployee';
-import { employeeInfoResponse } from '../models/interfaces/response/employeeInfoResponse';
+import { IEmployeeInfoResponse } from '../models/interfaces/response/IEmployeeInfoResponse';
 import TableDataStore from './base/TableDataStore';
+import { inject, injectable } from 'inversify';
+import { Types } from '../inversify/inversify.types';
 
-export default class EmployeeStore extends TableDataStore<IEmployee, employeeInfoResponse> {
-	constructor() {
-		super('users');
+@injectable()
+export default class EmployeeStore extends TableDataStore<IEmployee, IEmployeeInfoResponse> {
+	constructor(@inject(Types.EmployeeRequestAddress) requestAddress: string) {
+		super(requestAddress);
 		makeObservable(this);
 	}
 

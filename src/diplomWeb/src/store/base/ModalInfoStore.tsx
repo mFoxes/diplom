@@ -1,7 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import ErrorStore from './helpers/ErrorStore';
 import ModalStore from './ModalStore';
+import { injectable } from 'inversify';
 
+@injectable()
 export default class ModalInfoStore<IInfoResponse> {
 	private _tableDataInfoId = '';
 	private _tableDataInfo: IInfoResponse | undefined;

@@ -2,15 +2,15 @@ import { Pagination } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { IData } from '../../../models/interfaces/IData';
-import { dataInfoResponse } from '../../../models/interfaces/response/dataInfoResponse';
+import { IDataInfoResponse } from '../../../models/interfaces/response/IDataInfoResponse';
 import TableDataStore from '../../../store/base/TableDataStore';
 
-export interface IListPagination<IItem extends IData, IInfoResponse extends dataInfoResponse> {
+export interface IListPagination<IItem extends IData, IInfoResponse extends IDataInfoResponse> {
 	store: TableDataStore<IItem, IInfoResponse>;
 }
 
 export const ListPagination = observer(
-	<IItem extends IData, IInfoResponse extends dataInfoResponse>({
+	<IItem extends IData, IInfoResponse extends IDataInfoResponse>({
 		store,
 		...props
 	}: IListPagination<IItem, IInfoResponse>): JSX.Element => {

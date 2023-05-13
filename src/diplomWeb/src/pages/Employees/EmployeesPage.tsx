@@ -10,7 +10,6 @@ import { useInject } from '../../hooks/useInject';
 import employeePhotoEmpty from '../../img/employeePhotoEmpty.png';
 import { Types } from '../../inversify/inversify.types';
 import { IEmployee } from '../../models/interfaces/IEmployee';
-import { IErrorType } from '../../models/interfaces/IErrorType';
 import EmployeeStore from '../../store/EmployeesStore';
 import GeneralStore from '../../store/GeneralStore';
 import { nameof } from '../../utilities/Utilities';
@@ -24,12 +23,8 @@ const EmployeesPage = (): JSX.Element => {
 	const { skip, take, orderBy, orderDir } = params;
 
 	const syncBtn = async (): Promise<void> => {
-		try {
-			await employeesStore.syncEmployees();
-			employeesStore.updateTableData();
-		} catch (e: IErrorType) {
-			console.log(e);
-		}
+		await employeesStore.syncEmployees();
+		employeesStore.updateTableData();
 	};
 
 	useEffect(() => {
