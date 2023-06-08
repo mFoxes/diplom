@@ -6,6 +6,6 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    container_name: grandmaweb
+    container_name: web_spa
     ports:
       - 3000:80

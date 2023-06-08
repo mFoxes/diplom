@@ -10,7 +10,7 @@ export const Logo = (): JSX.Element => {
 				style={{ borderRadius: '5px', width: '50px', height: '50px', objectFit: 'cover' }}
 			/>
 			<Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-				Бабуля
+				Приложение
 			</Typography>
 		</Box>
 	);

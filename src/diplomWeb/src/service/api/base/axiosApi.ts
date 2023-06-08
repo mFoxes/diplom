@@ -1,24 +1,28 @@
 import { Either, left, right } from '@sweet-monads/either';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { inject, injectable } from 'inversify';
-import { API_URL, CLIENT_ID } from '../../../staticData';
-import { BaseApi, RequestData } from './baseApi';
-import { Types } from '../../../inversify/inversify.types';
-import { IJwtResponse } from '../../../models/interfaces/response/IJwtResponse';
+import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
-import { CONFIG_JWT } from '../authService';
-import LocalStorageService from '../../localStorageService';
+import { URL_FACTORY } from '../../../helpers/urlFactory';
 import { history } from '../../../history/history';
 import { HISTORY_URL } from '../../../history/historyUrl';
-import { URL_FACTORY } from '../../../helpers/urlFactory';
+import { IJwtResponse } from '../../../models/interfaces/response/IJwtResponse';
+import { API_URL, CLIENT_ID } from '../../../staticData';
+import LocalStorageService from '../../localStorageService';
+import { CONFIG_JWT } from '../authService';
+import { BaseApi, RequestData } from './baseApi';
 
 @injectable()
 export class AxiosApi extends BaseApi<AxiosRequestConfig> {
-	@inject(Types.LocalStorageService) private _localStorageService!: LocalStorageService;
+	private _localStorageService = new LocalStorageService();
 
-	private $api = axios.create({
+	protected $api = axios.create({
 		withCredentials: true,
 		baseURL: API_URL,
+		headers: {
+			'Access-Control-Allow-Origin': 'http://localhost:5050',
+			'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+			'Access-Control-Allow-Credentials': 'include',
+		},
 	});
 
 	constructor() {
@@ -33,12 +37,16 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 	protected _doApiRequest = async <TBody, TError>(
 		apiRequest: Promise<AxiosResponse<TBody>>,
 	): Promise<Either<AxiosResponse<TError>, TBody>> => {
+		this.$api.interceptors.request.use(
+			(config) => this._interceptOnFulfilled(config),
+			(e) => this._interceptOnReject(e),
+		);
 		try {
 			const response = await apiRequest;
 			return right(response.data);
 		} catch (e: any) {
 			console.log(e);
-			return left(e.response);
+			return left(e);
 		}
 	};
 
@@ -58,14 +66,14 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		return this.$api.delete<T, R>(data.url);
 	};
 
-	private _interceptOnFulfilled(config: AxiosRequestConfig): AxiosRequestConfig {
+	protected _interceptOnFulfilled(config: AxiosRequestConfig): AxiosRequestConfig {
 		if (config.headers) {
 			config.headers.Authorization = `Bearer ${this._localStorageService.getAccessToken()}`;
 		}
 		return config;
 	}
 
-	private _interceptOnReject(error: any): Promise<AxiosResponse> {
+	protected _interceptOnReject(error: any): Promise<AxiosResponse> {
 		console.error(error);
 
 		const originalRequest = error.config;
@@ -79,7 +87,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		return Promise.reject(error);
 	}
 
-	private makeRefresh = async (originalRequest: any): Promise<AxiosResponse> => {
+	protected makeRefresh = async (originalRequest: any): Promise<AxiosResponse> => {
 		const refreshToken = this._localStorageService.getRefreshToken();
 
 		if (!refreshToken) {
@@ -89,7 +97,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		return this.refreshRequest(refreshToken, originalRequest);
 	};
 
-	private refreshRequest = async (refreshToken: string, originalRequest: any): Promise<AxiosResponse<any, any>> => {
+	protected refreshRequest = async (refreshToken: string, originalRequest: any): Promise<AxiosResponse<any, any>> => {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'refresh_token');
 		params.append(urlSearchParamsTypeConstants.refreshToken, refreshToken);
@@ -109,7 +117,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		}
 	};
 
-	private incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
+	protected incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
 		history.push(HISTORY_URL.login);
 		return Promise.reject(res ?? 'refresh in local storage not found');
 	};

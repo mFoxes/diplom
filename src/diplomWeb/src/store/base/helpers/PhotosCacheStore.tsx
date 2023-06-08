@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 import { Types } from '../../../inversify/inversify.types';
 import DownloadableImageService from '../../../service/api/downloadableImgService';
@@ -7,6 +7,7 @@ interface IPhotoCache {
 	[key: string]: string;
 }
 
+@injectable()
 export default class PhotosCacheStore {
 	@inject(Types.DownloadableImageService) private _downloadableImageService!: DownloadableImageService;
 

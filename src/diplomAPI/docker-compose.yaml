@@ -45,7 +45,7 @@ services:
     image: web-api
     volumes:
       - type : bind
-        source : "\\\\192.168.0.12\\stockman_storage"
+        source : "\\\\192.168.0.105"
         target : /app/wwwroot
     container_name: web_api
     environment:
@@ -75,3 +75,11 @@ services:
       - 5672:5672
       - 15672:15672
     
+# web-spa
+  web-spa:
+    build:
+      context: ../diplomWeb
+      dockerfile: ./Dockerfile
+    container_name: web_spa
+    ports:
+      - 3000:80

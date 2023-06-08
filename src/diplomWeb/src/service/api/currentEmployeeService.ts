@@ -12,7 +12,6 @@ import { URL_FACTORY } from '../../helpers/urlFactory';
 export default class CurrentEmployeeService extends AxiosApi {
 	public async getCurrentEmployee(): Promise<Either<AxiosResponse<IErrorResponse[]>, ICurrentEmployee>> {
 		const req = this._get<ICurrentEmployee>({ url: URL_FACTORY.usersCurrent });
-
 		return this._doApiRequest(req);
 	}
 

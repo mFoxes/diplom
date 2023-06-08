@@ -26,6 +26,7 @@ using Singularis.Internal.Infrastructure.MongoDb;
 using Singularis.Internal.Domain.Entities;
 using GrandmaApi.Notification.MessageServices;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 var mongoDbConfig = config.GetSection("MongoDbConfiguration").Get<MongoDbConfig>();
@@ -55,7 +56,7 @@ builder.Services.AddSignalR()
     });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICollectionMapper, TypeNameCollectionMapper>();
-builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>(sp => 
+builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>(sp =>
 {
     var connectionString = config.GetConnectionString("MongoDb");
     var readModelSource = mongoDbConfig.DatabaseName;
@@ -71,26 +72,36 @@ builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>(sp =>
         DtoConventionPack.Instance,
         t => typeof(IEntity<Guid>).IsAssignableFrom(t));
 
-        return new DatabaseProvider(
-            connectionString,
-            readModelSource,
-            x => 
+    return new DatabaseProvider(
+        connectionString,
+        readModelSource,
+        x =>
+        {
+            x.ClusterConfigurator = cc =>
             {
-                x.ClusterConfigurator = cc =>
-                {
-                    cc.Subscribe<MongoDB.Driver.Core.Events.CommandStartedEvent>(e => logger.LogDebug($"{e.CommandName} - {e.Command.ToJson()}"));
-                };
-            }
-        );
+                cc.Subscribe<MongoDB.Driver.Core.Events.CommandStartedEvent>(e => logger.LogDebug($"{e.CommandName} - {e.Command.ToJson()}"));
+            };
+        }
+    );
 });
-builder.Services.AddScoped<IGrandmaRepository>(sp => 
+builder.Services.AddScoped<IGrandmaRepository>(sp =>
 {
-    return new GrandmaRepository( 
-        () => sp.GetRequiredService<IDatabaseProvider>().Database, 
+    return new GrandmaRepository(
+        () => sp.GetRequiredService<IDatabaseProvider>().Database,
         sp.GetRequiredService<ICollectionMapper>(),
         new RepositorySettings(mongoDbConfig.IsolationLevel, TimeSpan.FromSeconds(mongoDbConfig.TransactionTimeout)));
 });
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000",
+                                "http://localhost:5000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
 builder.Services.AddScoped<ILdapRepository, LdapRepository>();
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddSingleton<TemplateProvider>();
@@ -159,7 +170,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<GrandmaHub>("/hubs/booking");
 });
 
-if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "test")
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Compose")
 {
     app.UseSwagger(c =>
     {

@@ -6,6 +6,8 @@ export const Types = {
 	DownloadableImageService: Symbol('DownloadableImageService'),
 	// service end
 
+	AxiosApi: Symbol('AxiosApi'),
+
 	// stores
 	AuthStore: Symbol('AuthStore'),
 	DashboardStore: Symbol('DashboardStore'),

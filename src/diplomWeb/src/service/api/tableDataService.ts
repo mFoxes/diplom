@@ -20,8 +20,8 @@ export default class TableDataService<IItem, IInfoResponse> extends AxiosApi {
 		params: ITableParams,
 	): Promise<Either<AxiosResponse<IErrorResponse[]>, IPageDataResponse<IItem>>> {
 		const req = this._get<IPageDataResponse<IItem>>({
-			url: `${this._requestAddress}/`,
-			payload: {
+			url: `${this._requestAddress}`,
+			config: {
 				params: params,
 			},
 		});

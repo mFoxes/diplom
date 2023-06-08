@@ -17,8 +17,8 @@ import { Types } from './inversify.types';
 const container = new Container();
 
 // service
-container.bind<AuthService>(Types.AuthService).to(AuthService).inSingletonScope();
-container.bind<LocalStorageService>(Types.LocalStorageService).to(LocalStorageService).inSingletonScope();
+container.bind<AuthService>(Types.AuthService).to(AuthService);
+container.bind<LocalStorageService>(Types.LocalStorageService).to(LocalStorageService);
 container.bind<CurrentEmployeeService>(Types.CurrentEmployeeService).to(CurrentEmployeeService);
 container.bind<DownloadableImageService>(Types.DownloadableImageService).to(DownloadableImageService);
 // service end
@@ -31,12 +31,6 @@ container.bind<EmployeeStore>(Types.EmployeeStore).to(EmployeeStore).inSingleton
 container.bind<GeneralStore>(Types.GeneralStore).to(GeneralStore).inSingletonScope();
 container.bind<PhotosCacheStore>(Types.PhotosCacheStore).to(PhotosCacheStore).inSingletonScope();
 // stores end
-
-// constant
-container.bind<string>(Types.DashboardRequestAddress).toConstantValue('bookings');
-container.bind<string>(Types.DevicesRequestAddress).toConstantValue('devices');
-container.bind<string>(Types.EmployeeRequestAddress).toConstantValue('users');
-// constant end
 
 // signalR
 container.bind<SignalR>(Types.SignalR).to(SignalR).inSingletonScope();
