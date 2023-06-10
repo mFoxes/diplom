@@ -161,7 +161,7 @@ app.UseCors(builder =>
 {
     builder.WithOrigins(config.GetValue<string>("Origin"));
     builder.AllowAnyHeader();
-    builder.WithMethods("GET", "POST");
+    builder.WithMethods("GET", "POST", "PUT", "DELETE");
     builder.AllowCredentials();
 });
 app.UseEndpoints(endpoints =>
