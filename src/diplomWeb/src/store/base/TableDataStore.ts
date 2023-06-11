@@ -82,6 +82,8 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 				this.params.handleChange(this.paginationLength);
 				this.updateTableData();
 			}
+		} else {
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 
@@ -91,6 +93,8 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 
 		if (res.isRight()) {
 			this.modalInfo.setTableDataInfo(res.value);
+		} else {
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 
@@ -101,7 +105,7 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 			if (res.isRight()) {
 				return res.value;
 			} else if (res.isLeft()) {
-				this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
+				this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 			}
 		}
 	}
@@ -113,7 +117,7 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 		if (res.isRight()) {
 			return res.value;
 		} else {
-			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 
@@ -125,7 +129,7 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 			this.modalConfirm.modalStore.handleClose();
 			this.updateTableData();
 		} else {
-			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 
@@ -156,6 +160,8 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 				}
 
 				this.modalInfo.errorStore.resetError();
+			} else {
+				this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 			}
 		}
 	}
@@ -170,6 +176,8 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 			this.updateTableData();
 
 			this.modalInfo.errorStore.resetError();
+		} else {
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 
@@ -185,7 +193,7 @@ export default class TableDataStore<IItem extends IData, IInfoResponse extends I
 			originDataInfo.PhotoId = res.value.File;
 			updateTableInfoMethod(originDataInfo);
 		} else {
-			this.modalInfo.errorStore.setError(res.value.request.response.data.Errors);
+			this.modalInfo.errorStore.setError(res.value.response?.data.Errors);
 		}
 	}
 

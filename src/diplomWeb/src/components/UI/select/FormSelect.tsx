@@ -1,12 +1,12 @@
 import { FormControl, FormHelperText, Select } from '@mui/material';
 import { SelectHTMLAttributes } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { IErrorResponse } from '../../../models/interfaces/response/IErrorResponse';
+import { IErrorItem } from '../../../models/interfaces/response/IErrorResponse';
 import { getErrorListByName } from '../../../utilities/Utilities';
 
 export interface IFormSelect extends SelectHTMLAttributes<HTMLSelectElement> {
 	inputName: string;
-	serverErrorList?: IErrorResponse[];
+	serverErrorList?: IErrorItem[];
 	children?: JSX.Element[];
 }
 

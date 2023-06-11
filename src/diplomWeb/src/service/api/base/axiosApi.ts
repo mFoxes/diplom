@@ -1,5 +1,5 @@
 import { Either, left, right } from '@sweet-monads/either';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../../constants/authConstants';
 import { URL_FACTORY } from '../../../helpers/urlFactory';
@@ -36,7 +36,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 
 	protected _doApiRequest = async <TBody, TError>(
 		apiRequest: Promise<AxiosResponse<TBody>>,
-	): Promise<Either<AxiosResponse<TError>, TBody>> => {
+	): Promise<Either<AxiosError<TError>, TBody>> => {
 		this.$api.interceptors.request.use(
 			(config) => this._interceptOnFulfilled(config),
 			(e) => this._interceptOnReject(e),
@@ -117,7 +117,7 @@ export class AxiosApi extends BaseApi<AxiosRequestConfig> {
 		}
 	};
 
-	protected incorrectRefreshCase = (res?: AxiosResponse<unknown>): Promise<never> => {
+	protected incorrectRefreshCase = (res?: AxiosError<unknown>): Promise<never> => {
 		history.push(HISTORY_URL.login);
 		return Promise.reject(res ?? 'refresh in local storage not found');
 	};

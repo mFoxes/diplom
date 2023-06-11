@@ -1,12 +1,12 @@
-import { AxiosApi } from './base/axiosApi';
 import { Either } from '@sweet-monads/either';
-import { IJwtResponse } from '../../models/interfaces/response/IJwtResponse';
-import { CLIENT_ID } from '../../staticData';
+import { AxiosError } from 'axios';
 import { injectable } from 'inversify';
 import { urlSearchParamsTypeConstants } from '../../constants/authConstants';
-import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
-import { AxiosResponse } from 'axios';
 import { URL_FACTORY } from '../../helpers/urlFactory';
+import { IErrorResponse } from '../../models/interfaces/response/IErrorResponse';
+import { IJwtResponse } from '../../models/interfaces/response/IJwtResponse';
+import { CLIENT_ID } from '../../staticData';
+import { AxiosApi } from './base/axiosApi';
 
 export const CONFIG_JWT = {
 	headers: {
@@ -16,7 +16,7 @@ export const CONFIG_JWT = {
 
 @injectable()
 export default class AuthService extends AxiosApi {
-	public async authRequest(params: URLSearchParams): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
+	public async authRequest(params: URLSearchParams): Promise<Either<AxiosError<IErrorResponse>, IJwtResponse>> {
 		const req = this._post<IJwtResponse>({
 			url: URL_FACTORY.token,
 			payload: params,
@@ -26,10 +26,7 @@ export default class AuthService extends AxiosApi {
 		return this._doApiRequest(req);
 	}
 
-	public async login(
-		username: string,
-		password: string,
-	): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
+	public async login(username: string, password: string): Promise<Either<AxiosError<IErrorResponse>, IJwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'password');
 		params.append(urlSearchParamsTypeConstants.userName, username);
@@ -39,7 +36,7 @@ export default class AuthService extends AxiosApi {
 		return this.authRequest(params);
 	}
 
-	public async refresh(refresh_token: string): Promise<Either<AxiosResponse<IErrorResponse[]>, IJwtResponse>> {
+	public async refresh(refresh_token: string): Promise<Either<AxiosError<IErrorResponse>, IJwtResponse>> {
 		const params = new URLSearchParams();
 		params.append(urlSearchParamsTypeConstants.grantType, 'refresh_token');
 		params.append(urlSearchParamsTypeConstants.refreshToken, refresh_token);

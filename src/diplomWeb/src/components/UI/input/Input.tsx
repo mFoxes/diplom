@@ -20,6 +20,9 @@ export const Input = observer(
 			methods !== null &&
 			getErrorListByName(inputName, serverErrorStore?.error, methods.formState.errors[inputName]);
 
+		console.log('serverErrorStore?.error', serverErrorStore?.error);
+		console.log('inputName', inputName);
+
 		const registerData = methods !== null ? methods.register(inputName as Path<T>) : {};
 
 		const { onChange, ...params } = registerData as UseFormRegisterReturn;
